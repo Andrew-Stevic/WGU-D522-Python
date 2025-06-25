@@ -1,0 +1,1210 @@
+# Python File I/O: Complete Beginner Guide
+
+# =============================================================================
+# FILE STRUCTURE AND BASICS
+# =============================================================================
+
+print("--- Understanding File Structure ---")
+print("Files are collections of data stored on your computer")
+print("Text files contain readable characters")
+print("Binary files contain non-readable data (images, executables, etc.)")
+print("We'll focus on text files in this guide")
+
+# What's in a text file?
+sample_file_content = """Line 1: This is the first line
+Line 2: This is the second line
+Line 3: This is the third line"""
+
+print(f"\nExample text file content:")
+print(sample_file_content)
+
+# =============================================================================
+# NEWLINE CHARACTERS
+# =============================================================================
+
+print("\n" + "="*60)
+print("NEWLINE CHARACTERS")
+print("="*60)
+
+print("--- Understanding Newline Characters ---")
+print("A newline character (\\n) marks the end of a line")
+print("It's invisible but tells the computer to start a new line")
+
+# Demonstrating newline characters
+text_with_newlines = "First line\nSecond line\nThird line"
+print(f"\nText with \\n characters: '{text_with_newlines}'")
+print("When printed:")
+print(text_with_newlines)
+
+# Different ways newlines appear
+print(f"\nNewline variations:")
+print(f"- \\n (Unix/Linux/Mac): {repr('Line 1\\nLine 2')}")
+print(f"- \\r\\n (Windows): {repr('Line 1\\r\\nLine 2')}")
+print(f"- \\r (Old Mac): {repr('Line 1\\rLine 2')}")
+print("Python handles these automatically when reading files")
+
+# =============================================================================
+# OPENING AND CLOSING FILES
+# =============================================================================
+
+print("\n" + "="*60)
+print("OPENING AND CLOSING FILES")
+print("="*60)
+
+print("--- How to Open a File ---")
+print("Use the open() function: open(filename, mode)")
+
+# Create a sample file first for our examples
+sample_filename = "example.txt"
+with open(sample_filename, "w") as f:
+    f.write("This is line 1\\n")
+    f.write("This is line 2\\n")
+    f.write("This is line 3\\n")
+
+print(f"Created sample file: {sample_filename}")
+
+# Basic file opening (NOT recommended - no automatic closing)
+print("\\n--- Basic Opening (Manual Close Required) ---")
+print("file = open('example.txt', 'r')  # Open for reading")
+print("# ... do something with file ...")
+print("file.close()  # Must manually close!")
+
+# Manual open and close example
+file = open(sample_filename, "r")
+content = file.read()
+file.close()  # Important! Must close manually
+print(f"File content: {repr(content)}")
+
+print("\\n--- Why Manual Closing is Problematic ---")
+print("- Easy to forget file.close()")
+print("- If error occurs, file might not close")
+print("- Can cause resource leaks")
+print("- Files might remain locked")
+
+# =============================================================================
+# USING 'WITH' STATEMENT
+# =============================================================================
+
+print("\\n" + "="*60)
+print("USING 'WITH' STATEMENT")
+print("="*60)
+
+print("--- Why Use 'with' ---")
+print("The 'with' statement automatically closes files")
+print("Even if an error occurs, the file will be closed")
+print("This is the RECOMMENDED way to work with files")
+
+print("\\n--- 'with' Statement Syntax ---")
+print("with open(filename, mode) as variable_name:")
+print("    # work with file using variable_name")
+print("# file is automatically closed here")
+
+# Demonstrating with statement
+print("\\n--- 'with' Statement Examples ---")
+
+# Reading with 'with'
+with open(sample_filename, "r") as file:
+    content = file.read()
+    print(f"Content read with 'with': {repr(content)}")
+# File is automatically closed here
+
+# Multiple operations with 'with'
+with open(sample_filename, "r") as file:
+    print("File operations inside 'with' block:")
+    first_line = file.readline()
+    print(f"  First line: {repr(first_line)}")
+    remaining = file.read()
+    print(f"  Remaining: {repr(remaining)}")
+
+print("File is automatically closed after 'with' block")
+
+# Demonstrating automatic closing even with errors
+print("\\n--- 'with' Handles Errors Gracefully ---")
+try:
+    with open(sample_filename, "r") as file:
+        content = file.read()
+        # Simulate an error
+        raise ValueError("Something went wrong!")
+except ValueError as e:
+    print(f"Error occurred: {e}")
+    print("But file was still closed automatically!")
+
+# =============================================================================
+# FILE MODES (r/w/a)
+# =============================================================================
+
+print("\\n" + "="*60)
+print("FILE MODES")
+print("="*60)
+
+print("--- Understanding File Modes ---")
+modes = {
+    "'r'": "Read mode (default) - opens existing file for reading",
+    "'w'": "Write mode - creates new file or overwrites existing",
+    "'a'": "Append mode - adds to end of existing file",
+    "'r+'": "Read/Write mode - opens existing file for both",
+    "'w+'": "Write/Read mode - creates new file for both",
+    "'a+'": "Append/Read mode - opens for both, writes at end"
+}
+
+for mode, description in modes.items():
+    print(f"  {mode}: {description}")
+
+print("\\n--- Read Mode ('r') Examples ---")
+
+# Read mode - file must exist
+with open(sample_filename, "r") as file:
+    content = file.read()
+    print(f"Read mode content: {repr(content)}")
+
+# Trying to read non-existent file
+print("\\n--- Read Mode Error Handling ---")
+try:
+    with open("nonexistent.txt", "r") as file:
+        content = file.read()
+except FileNotFoundError as e:
+    print(f"Error: {e}")
+    print("Read mode requires file to exist!")
+
+print("\\n--- Write Mode ('w') Examples ---")
+
+# Write mode - creates or overwrites
+write_filename = "write_example.txt"
+with open(write_filename, "w") as file:
+    file.write("This is new content\\n")
+    file.write("Write mode overwrites everything\\n")
+
+# Read back what we wrote
+with open(write_filename, "r") as file:
+    content = file.read()
+    print(f"Write mode result: {repr(content)}")
+
+# Write mode overwrites existing content
+print("\\n--- Write Mode Overwrites ---")
+with open(write_filename, "w") as file:
+    file.write("Old content is gone!\\n")
+    file.write("This completely replaces the file\\n")
+
+with open(write_filename, "r") as file:
+    content = file.read()
+    print(f"After overwrite: {repr(content)}")
+
+print("\\n--- Append Mode ('a') Examples ---")
+
+# Append mode - adds to end
+append_filename = "append_example.txt"
+
+# Create initial file
+with open(append_filename, "w") as file:
+    file.write("Initial content\\n")
+
+# Append to it
+with open(append_filename, "a") as file:
+    file.write("First appended line\\n")
+    file.write("Second appended line\\n")
+
+# Append more
+with open(append_filename, "a") as file:
+    file.write("Third appended line\\n")
+
+# Read final result
+with open(append_filename, "r") as file:
+    content = file.read()
+    print(f"Append mode result: {repr(content)}")
+
+# =============================================================================
+# READ METHODS
+# =============================================================================
+
+print("\\n" + "="*60)
+print("READ METHODS")
+print("="*60)
+
+# Create a multi-line file for reading examples
+multiline_filename = "multiline_example.txt"
+with open(multiline_filename, "w") as file:
+    file.write("Line 1: First line of the file\\n")
+    file.write("Line 2: Second line\\n")
+    file.write("Line 3: Third line\\n")
+    file.write("Line 4: Fourth line\\n")
+    file.write("Line 5: Last line")  # No newline at end
+
+print("--- read() Method ---")
+print("read() reads the ENTIRE file as one string")
+
+with open(multiline_filename, "r") as file:
+    entire_content = file.read()
+    print(f"read() result: {repr(entire_content)}")
+    print(f"Type: {type(entire_content)}")
+
+# read() with size limit
+print("\\n--- read(size) Method ---")
+print("read(n) reads up to n characters")
+
+with open(multiline_filename, "r") as file:
+    first_10_chars = file.read(10)
+    next_5_chars = file.read(5)
+    rest = file.read()
+    
+    print(f"First 10 characters: {repr(first_10_chars)}")
+    print(f"Next 5 characters: {repr(next_5_chars)}")
+    print(f"Rest of file: {repr(rest)}")
+
+print("\\n--- readline() Method ---")
+print("readline() reads ONE line at a time")
+
+with open(multiline_filename, "r") as file:
+    line1 = file.readline()
+    line2 = file.readline()
+    line3 = file.readline()
+    
+    print(f"First readline(): {repr(line1)}")
+    print(f"Second readline(): {repr(line2)}")
+    print(f"Third readline(): {repr(line3)}")
+
+# readline() returns empty string when file ends
+print("\\n--- readline() at End of File ---")
+with open(multiline_filename, "r") as file:
+    # Read all lines
+    while True:
+        line = file.readline()
+        if line == "":  # Empty string means end of file
+            print("End of file reached")
+            break
+        print(f"Read line: {repr(line)}")
+
+print("\\n--- readlines() Method ---")
+print("readlines() reads ALL lines and returns them as a list")
+
+with open(multiline_filename, "r") as file:
+    all_lines = file.readlines()
+    print(f"readlines() result: {all_lines}")
+    print(f"Type: {type(all_lines)}")
+    print(f"Number of lines: {len(all_lines)}")
+
+# Processing readlines() result
+print("\\n--- Processing readlines() Result ---")
+with open(multiline_filename, "r") as file:
+    lines = file.readlines()
+    for i, line in enumerate(lines, 1):
+        print(f"Line {i}: {repr(line)}")
+
+# =============================================================================
+# WRITE METHODS
+# =============================================================================
+
+print("\\n" + "="*60)
+print("WRITE METHODS")
+print("="*60)
+
+print("--- write() Method ---")
+print("write() writes a string to the file")
+print("Important: write() does NOT add newlines automatically!")
+
+write_demo_file = "write_demo.txt"
+
+with open(write_demo_file, "w") as file:
+    # write() doesn't add newlines
+    file.write("First line")
+    file.write("Second line")
+    file.write("Third line")
+
+# See what happened
+with open(write_demo_file, "r") as file:
+    content = file.read()
+    print(f"Without newlines: {repr(content)}")
+
+print("\\n--- Adding Newlines Manually ---")
+with open(write_demo_file, "w") as file:
+    file.write("First line\\n")  # Manual newline
+    file.write("Second line\\n")
+    file.write("Third line\\n")
+
+with open(write_demo_file, "r") as file:
+    content = file.read()
+    print(f"With newlines: {repr(content)}")
+
+print("\\n--- write() Return Value ---")
+with open(write_demo_file, "w") as file:
+    chars_written1 = file.write("Hello")
+    chars_written2 = file.write(" World\\n")
+    
+    print(f"write('Hello') returned: {chars_written1}")
+    print(f"write(' World\\\\n') returned: {chars_written2}")
+
+print("\\n--- Writing Different Data Types ---")
+with open(write_demo_file, "w") as file:
+    # Must convert non-strings to strings
+    file.write(str(42) + "\\n")
+    file.write(str(3.14159) + "\\n")
+    file.write(str(True) + "\\n")
+    file.write(str([1, 2, 3]) + "\\n")
+
+with open(write_demo_file, "r") as file:
+    content = file.read()
+    print(f"Different data types written: {repr(content)}")
+
+# =============================================================================
+# ITERATING THROUGH FILE LINES
+# =============================================================================
+
+print("\\n" + "="*60)
+print("ITERATING THROUGH FILE LINES")
+print("="*60)
+
+print("--- File Objects are Iterable ---")
+print("You can loop directly through a file object")
+print("This is memory efficient for large files")
+
+# Create a file with numbered lines
+iteration_file = "iteration_example.txt"
+with open(iteration_file, "w") as file:
+    for i in range(1, 6):
+        file.write(f"This is line number {i}\\n")
+
+print("\\n--- Direct File Iteration ---")
+with open(iteration_file, "r") as file:
+    for line_number, line in enumerate(file, 1):
+        print(f"Line {line_number}: {repr(line)}")
+
+print("\\n--- Processing Lines While Iterating ---")
+with open(iteration_file, "r") as file:
+    for line in file:
+        # Remove newline and process
+        clean_line = line.strip()  # Removes \\n and whitespace
+        print(f"Cleaned line: '{clean_line}'")
+        print(f"  Length: {len(clean_line)} characters")
+
+print("\\n--- Different Iteration Methods Comparison ---")
+
+# Method 1: Direct iteration (recommended)
+print("Method 1 - Direct iteration:")
+with open(iteration_file, "r") as file:
+    for line in file:
+        print(f"  {line.strip()}")
+
+# Method 2: readline() loop
+print("\\nMethod 2 - readline() loop:")
+with open(iteration_file, "r") as file:
+    while True:
+        line = file.readline()
+        if not line:  # Empty string means end
+            break
+        print(f"  {line.strip()}")
+
+# Method 3: readlines() then iterate
+print("\\nMethod 3 - readlines() then iterate:")
+with open(iteration_file, "r") as file:
+    lines = file.readlines()
+    for line in lines:
+        print(f"  {line.strip()}")
+
+print("\\n--- Memory Efficiency Comparison ---")
+print("Direct iteration: Memory efficient, reads one line at a time")
+print("readline() loop: Memory efficient, reads one line at a time")
+print("readlines(): Loads entire file into memory at once")
+print("For large files, use direct iteration or readline() loop")
+
+# =============================================================================
+# CSV FILE STRUCTURE
+# =============================================================================
+
+print("\\n" + "="*60)
+print("CSV FILE STRUCTURE")
+print("="*60)
+
+print("--- What is CSV? ---")
+print("CSV = Comma-Separated Values")
+print("Each line is a record (row)")
+print("Values in each record are separated by commas")
+print("First row often contains headers (column names)")
+
+# Create sample CSV content
+csv_content = """name,age,city,salary
+Alice,25,New York,50000
+Bob,30,Los Angeles,60000
+Charlie,35,Chicago,55000
+Diana,28,Miami,52000"""
+
+print(f"\\nExample CSV structure:")
+print(csv_content)
+
+# Create CSV file for examples
+csv_filename = "employees.csv"
+with open(csv_filename, "w") as file:
+    file.write(csv_content)
+
+print("\\n--- CSV Structure Breakdown ---")
+print("Headers: name, age, city, salary")
+print("Record 1: Alice, 25, New York, 50000")
+print("Record 2: Bob, 30, Los Angeles, 60000")
+print("etc...")
+
+print("\\n--- CSV Challenges ---")
+print("- What if data contains commas? Use quotes: 'Smith, John'")
+print("- What if data contains quotes? Escape them: 'He said \"Hello\"'")
+print("- Different separators: semicolon, tab, pipe (|)")
+print("- This is why we use the csv module!")
+
+# =============================================================================
+# CSV MODULE - READER
+# =============================================================================
+
+print("\\n" + "="*60)
+print("CSV MODULE - READER")
+print("="*60)
+
+import csv
+
+print("--- Creating a CSV Reader ---")
+print("import csv")
+print("with open('file.csv', 'r') as file:")
+print("    reader = csv.reader(file)")
+print("    for row in reader:")
+print("        print(row)")
+
+print("\\n--- Basic CSV Reader Example ---")
+with open(csv_filename, "r") as file:
+    reader = csv.reader(file)
+    for row_number, row in enumerate(reader, 1):
+        print(f"Row {row_number}: {row}")
+        print(f"  Type: {type(row)}")
+        if row_number == 1:  # Show details for first row
+            print(f"  Length: {len(row)} columns")
+            print(f"  First column: '{row[0]}'")
+
+print("\\n--- Separating Headers from Data ---")
+with open(csv_filename, "r") as file:
+    reader = csv.reader(file)
+    headers = next(reader)  # Read first row as headers
+    print(f"Headers: {headers}")
+    
+    print("Data rows:")
+    for row_number, row in enumerate(reader, 1):
+        print(f"  Row {row_number}: {row}")
+
+print("\\n--- Processing CSV Data ---")
+with open(csv_filename, "r") as file:
+    reader = csv.reader(file)
+    headers = next(reader)
+    
+    print("Employee Information:")
+    for row in reader:
+        name = row[0]
+        age = int(row[1])  # Convert to integer
+        city = row[2]
+        salary = int(row[3])  # Convert to integer
+        
+        print(f"  {name}: {age} years old, lives in {city}, earns ${salary:,}")
+
+print("\\n--- CSV Reader with Different Delimiters ---")
+
+# Create tab-separated file
+tab_separated_content = "name\\tage\\tcity\\tsalary\\nAlice\\t25\\tNew York\\t50000\\nBob\\t30\\tLos Angeles\\t60000"
+tab_filename = "employees_tab.csv"
+with open(tab_filename, "w") as file:
+    file.write(tab_separated_content)
+
+print("Reading tab-separated file:")
+with open(tab_filename, "r") as file:
+    reader = csv.reader(file, delimiter='\\t')  # Specify tab delimiter
+    for row in reader:
+        print(f"  {row}")
+
+# =============================================================================
+# CSV MODULE - WRITER
+# =============================================================================
+
+print("\\n" + "="*60)
+print("CSV MODULE - WRITER")
+print("="*60)
+
+print("--- Creating a CSV Writer ---")
+print("with open('file.csv', 'w', newline='') as file:")
+print("    writer = csv.writer(file)")
+print("    writer.writerow(['col1', 'col2', 'col3'])")
+
+print("\\n--- Basic CSV Writer Example ---")
+output_filename = "output.csv"
+
+with open(output_filename, "w", newline='') as file:  # newline='' prevents extra blank lines
+    writer = csv.writer(file)
+    
+    # Write header
+    writer.writerow(['name', 'age', 'department'])
+    
+    # Write data rows
+    writer.writerow(['Alice', 25, 'Engineering'])
+    writer.writerow(['Bob', 30, 'Marketing'])
+    writer.writerow(['Charlie', 35, 'Sales'])
+
+# Read back what we wrote
+print("Written CSV file:")
+with open(output_filename, "r") as file:
+    content = file.read()
+    print(content)
+
+print("\\n--- writerow() vs writerows() ---")
+
+# writerows() for multiple rows at once
+batch_filename = "batch_output.csv"
+data_rows = [
+    ['Product', 'Price', 'Stock'],
+    ['Laptop', 999.99, 15],
+    ['Mouse', 29.99, 50],
+    ['Keyboard', 79.99, 25]
+]
+
+with open(batch_filename, "w", newline='') as file:
+    writer = csv.writer(file)
+    writer.writerows(data_rows)  # Write all rows at once
+
+print("Using writerows():")
+with open(batch_filename, "r") as file:
+    reader = csv.reader(file)
+    for row in reader:
+        print(f"  {row}")
+
+print("\\n--- CSV Writer with Custom Settings ---")
+custom_filename = "custom.csv"
+
+with open(custom_filename, "w", newline='') as file:
+    writer = csv.writer(file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    
+    writer.writerow(['Name', 'Description', 'Price'])
+    writer.writerow(['Product A', 'Contains, commas and "quotes"', '19.99'])
+    writer.writerow(['Product B', 'Simple description', '29.99'])
+
+print("Custom CSV with semicolon delimiter:")
+with open(custom_filename, "r") as file:
+    content = file.read()
+    print(content)
+
+# =============================================================================
+# DICTREADER AND DICTWRITER
+# =============================================================================
+
+print("\\n" + "="*60)
+print("DICTREADER AND DICTWRITER")
+print("="*60)
+
+print("--- DictReader - Working with Dictionaries ---")
+print("DictReader treats first row as headers")
+print("Each row becomes a dictionary with headers as keys")
+
+print("\\n--- Basic DictReader Example ---")
+with open(csv_filename, "r") as file:
+    dict_reader = csv.DictReader(file)
+    
+    print(f"Fieldnames (headers): {dict_reader.fieldnames}")
+    
+    for row_number, row in enumerate(dict_reader, 1):
+        print(f"Row {row_number}: {row}")
+        print(f"  Type: {type(row)}")
+        print(f"  Name: {row['name']}")
+        print(f"  Age: {row['age']}")
+
+print("\\n--- Processing Data with DictReader ---")
+with open(csv_filename, "r") as file:
+    dict_reader = csv.DictReader(file)
+    
+    print("Employee Analysis:")
+    total_salary = 0
+    employee_count = 0
+    
+    for employee in dict_reader:
+        name = employee['name']
+        age = int(employee['age'])
+        city = employee['city']
+        salary = int(employee['salary'])
+        
+        total_salary += salary
+        employee_count += 1
+        
+        print(f"  {name} ({age}): ${salary:,} in {city}")
+    
+    average_salary = total_salary / employee_count
+    print(f"\\nAverage salary: ${average_salary:,.2f}")
+
+print("\\n--- DictReader with Custom Fieldnames ---")
+# File without headers
+no_header_content = "Alice,25,New York,50000\\nBob,30,Los Angeles,60000"
+no_header_filename = "no_headers.csv"
+with open(no_header_filename, "w") as file:
+    file.write(no_header_content)
+
+custom_fieldnames = ['employee_name', 'employee_age', 'location', 'annual_salary']
+
+with open(no_header_filename, "r") as file:
+    dict_reader = csv.DictReader(file, fieldnames=custom_fieldnames)
+    
+    print("Using custom fieldnames:")
+    for row in dict_reader:
+        print(f"  {row}")
+
+print("\\n--- DictWriter - Writing Dictionaries ---")
+print("DictWriter writes dictionaries to CSV")
+print("Must specify fieldnames (column headers)")
+
+dict_output_filename = "dict_output.csv"
+fieldnames = ['name', 'position', 'salary', 'start_date']
+
+with open(dict_output_filename, "w", newline='') as file:
+    dict_writer = csv.DictWriter(file, fieldnames=fieldnames)
+    
+    # Write header row
+    dict_writer.writeheader()
+    
+    # Write data rows
+    dict_writer.writerow({
+        'name': 'Alice Johnson',
+        'position': 'Developer',
+        'salary': 75000,
+        'start_date': '2023-01-15'
+    })
+    
+    dict_writer.writerow({
+        'name': 'Bob Smith',
+        'position': 'Manager',
+        'salary': 85000,
+        'start_date': '2022-03-10'
+    })
+
+print("DictWriter output:")
+with open(dict_output_filename, "r") as file:
+    content = file.read()
+    print(content)
+
+print("\\n--- DictWriter with writerows() ---")
+employees_data = [
+    {'name': 'Charlie Brown', 'position': 'Analyst', 'salary': 65000, 'start_date': '2023-06-01'},
+    {'name': 'Diana Prince', 'position': 'Designer', 'salary': 70000, 'start_date': '2023-02-15'},
+    {'name': 'Edward Norton', 'position': 'Tester', 'salary': 60000, 'start_date': '2023-04-20'}
+]
+
+batch_dict_filename = "batch_dict_output.csv"
+
+with open(batch_dict_filename, "w", newline='') as file:
+    dict_writer = csv.DictWriter(file, fieldnames=fieldnames)
+    
+    dict_writer.writeheader()
+    dict_writer.writerows(employees_data)  # Write multiple rows
+
+print("Batch DictWriter output:")
+with open(batch_dict_filename, "r") as file:
+    dict_reader = csv.DictReader(file)
+    for row in dict_reader:
+        print(f"  {row}")
+
+print("\\n--- Fieldnames in DictReader/DictWriter ---")
+print("Fieldnames define the structure of your CSV")
+print("DictReader: fieldnames come from first row or you specify them")
+print("DictWriter: you must specify fieldnames when creating the writer")
+
+# Demonstrating fieldnames
+with open(csv_filename, "r") as file:
+    reader = csv.DictReader(file)
+    print(f"Auto-detected fieldnames: {reader.fieldnames}")
+    
+    # Try to access a field that doesn't exist
+    for row in reader:
+        print(f"Valid field 'name': {row.get('name', 'NOT FOUND')}")
+        print(f"Invalid field 'invalid': {row.get('invalid', 'NOT FOUND')}")
+        break  # Just show first row
+
+# =============================================================================
+# OS MODULE - FILE OPERATIONS
+# =============================================================================
+
+print("\\n" + "="*60)
+print("OS MODULE - FILE OPERATIONS")
+print("="*60)
+
+import os
+
+print("--- Checking if Files Exist ---")
+print("import os")
+print("os.path.exists('filename') - returns True/False")
+
+# Test with existing and non-existing files
+test_files = [csv_filename, "nonexistent.txt", output_filename]
+
+for filename in test_files:
+    exists = os.path.exists(filename)
+    print(f"os.path.exists('{filename}'): {exists}")
+
+print("\\n--- Different Path Checking Functions ---")
+print("os.path.exists() - file or directory exists")
+print("os.path.isfile() - specifically a file exists")
+print("os.path.isdir() - specifically a directory exists")
+
+# Create a directory for testing
+test_dir = "test_directory"
+if not os.path.exists(test_dir):
+    os.makedirs(test_dir)
+
+# Test different path types
+paths_to_test = [csv_filename, test_dir, "nonexistent.txt"]
+
+for path in paths_to_test:
+    print(f"\\nTesting path: '{path}'")
+    print(f"  exists(): {os.path.exists(path)}")
+    print(f"  isfile(): {os.path.isfile(path)}")
+    print(f"  isdir(): {os.path.isdir(path)}")
+
+print("\\n--- Safe File Operations ---")
+print("Always check if file exists before trying to read it")
+
+def safe_read_file(filename):
+    """Safely read a file with existence check."""
+    if os.path.exists(filename):
+        with open(filename, "r") as file:
+            return file.read()
+    else:
+        return f"Error: File '{filename}' does not exist"
+
+# Test safe reading
+test_reads = [csv_filename, "missing_file.txt"]
+for filename in test_reads:
+    result = safe_read_file(filename)
+    print(f"safe_read_file('{filename}'):")
+    print(f"  Result: {result[:50]}{'...' if len(result) > 50 else ''}")
+
+print("\\n--- Deleting Files ---")
+print("os.remove('filename') - deletes a file")
+print("BE CAREFUL: This permanently deletes files!")
+
+# Create a temporary file to delete
+temp_filename = "temp_file_to_delete.txt"
+with open(temp_filename, "w") as file:
+    file.write("This file will be deleted")
+
+print(f"Created temporary file: {temp_filename}")
+print(f"File exists before deletion: {os.path.exists(temp_filename)}")
+
+# Delete the file
+os.remove(temp_filename)
+print(f"File exists after deletion: {os.path.exists(temp_filename)}")
+
+print("\\n--- Safe File Deletion ---")
+def safe_delete_file(filename):
+    """Safely delete a file with existence check."""
+    if os.path.exists(filename):
+        os.remove(filename)
+        return f"Successfully deleted '{filename}'"
+    else:
+        return f"File '{filename}' does not exist"
+
+# Test safe deletion
+temp_filename2 = "another_temp_file.txt"
+with open(temp_filename2, "w") as file:
+    file.write("Another temporary file")
+
+print(safe_delete_file(temp_filename2))  # Should succeed
+print(safe_delete_file(temp_filename2))  # Should report file doesn't exist
+
+print("\\n--- Deleting Directories ---")
+print("os.rmdir('dirname') - deletes empty directory")
+print("shutil.rmtree('dirname') - deletes directory and all contents")
+
+import shutil
+
+# Create directory with a file
+test_dir_with_file = "test_dir_with_file"
+os.makedirs(test_dir_with_file, exist_ok=True)
+with open(os.path.join(test_dir_with_file, "test.txt"), "w") as file:
+    file.write("test content")
+
+print(f"Created directory with file: {test_dir_with_file}")
+
+# Try to delete with rmdir (will fail because directory not empty)
+try:
+    os.rmdir(test_dir_with_file)
+    print("rmdir succeeded")
+except OSError as e:
+    print(f"rmdir failed: {e}")
+
+# Use shutil.rmtree to delete directory and contents
+shutil.rmtree(test_dir_with_file)
+print(f"shutil.rmtree succeeded: {not os.path.exists(test_dir_with_file)}")
+
+# Delete empty directory (this will work)
+empty_dir = "empty_test_dir"
+os.makedirs(empty_dir, exist_ok=True)
+os.rmdir(empty_dir)  # Works because directory is empty
+print(f"Deleted empty directory: {not os.path.exists(empty_dir)}")
+
+print("\n--- Directory Deletion Summary ---")
+print("os.rmdir() - only works on empty directories")
+print("shutil.rmtree() - deletes directory and all contents (BE CAREFUL!)")
+
+# =============================================================================
+# FILECMP MODULE
+# =============================================================================
+
+print("\n" + "="*60)
+print("FILECMP MODULE")
+print("="*60)
+
+import filecmp
+
+print("--- File Comparison with filecmp ---")
+print("filecmp.cmp(file1, file2) - compares two files")
+print("Returns True if files are identical, False otherwise")
+
+# Create identical files
+file1_name = "identical1.txt"
+file2_name = "identical2.txt"
+file3_name = "different.txt"
+
+content = "This is identical content\nLine 2\nLine 3"
+
+with open(file1_name, "w") as file:
+    file.write(content)
+
+with open(file2_name, "w") as file:
+    file.write(content)  # Same content
+
+with open(file3_name, "w") as file:
+    file.write("This is different content\nLine 2\nLine 3")
+
+print("\n--- Basic File Comparison ---")
+comparison_tests = [
+    (file1_name, file2_name, "identical files"),
+    (file1_name, file3_name, "different files"),
+    (file1_name, file1_name, "same file")
+]
+
+for file1, file2, description in comparison_tests:
+    result = filecmp.cmp(file1, file2)
+    print(f"filecmp.cmp('{file1}', '{file2}') = {result} ({description})")
+
+print("\n--- Shallow vs Deep Comparison ---")
+print("filecmp.cmp(file1, file2, shallow=True) - default, compares metadata")
+print("filecmp.cmp(file1, file2, shallow=False) - compares actual content")
+
+# Test shallow vs deep comparison
+shallow_result = filecmp.cmp(file1_name, file2_name, shallow=True)
+deep_result = filecmp.cmp(file1_name, file2_name, shallow=False)
+
+print(f"Shallow comparison: {shallow_result}")
+print(f"Deep comparison: {deep_result}")
+
+print("\n--- Practical File Comparison Example ---")
+def compare_files_detailed(file1, file2):
+    """Compare two files and provide detailed information."""
+    if not os.path.exists(file1):
+        return f"Error: {file1} does not exist"
+    if not os.path.exists(file2):
+        return f"Error: {file2} does not exist"
+    
+    are_identical = filecmp.cmp(file1, file2)
+    
+    if are_identical:
+        return f"Files '{file1}' and '{file2}' are identical"
+    else:
+        # Get file sizes for additional info
+        size1 = os.path.getsize(file1)
+        size2 = os.path.getsize(file2)
+        return f"Files '{file1}' and '{file2}' are different (sizes: {size1} vs {size2} bytes)"
+
+# Test detailed comparison
+print(compare_files_detailed(file1_name, file2_name))
+print(compare_files_detailed(file1_name, file3_name))
+print(compare_files_detailed(file1_name, "nonexistent.txt"))
+
+# =============================================================================
+# HELP(CSV) AND DOCUMENTATION
+# =============================================================================
+
+print("\n" + "="*60)
+print("HELP(CSV) AND DOCUMENTATION")
+print("="*60)
+
+print("--- Using help() Function ---")
+print("help(csv) - shows documentation for csv module")
+print("help(csv.reader) - shows documentation for specific function")
+print("help(csv.DictReader) - shows documentation for specific class")
+
+print("\n--- Key CSV Module Components ---")
+print("From help(csv), you'll find these important components:")
+
+csv_components = {
+    "csv.reader": "Creates reader object for parsing CSV files",
+    "csv.writer": "Creates writer object for writing CSV files",
+    "csv.DictReader": "Reader that returns rows as dictionaries",
+    "csv.DictWriter": "Writer that accepts dictionaries",
+    "csv.QUOTE_MINIMAL": "Quote only when necessary",
+    "csv.QUOTE_ALL": "Quote all fields",
+    "csv.QUOTE_NONNUMERIC": "Quote non-numeric fields",
+    "csv.QUOTE_NONE": "Never quote fields"
+}
+
+for component, description in csv_components.items():
+    print(f"  {component}: {description}")
+
+print("\n--- Getting Help in Your Code ---")
+print("# To see help for csv module:")
+print("# help(csv)")
+print("#")
+print("# To see available attributes and methods:")
+print("# dir(csv)")
+print("#")
+print("# To see help for specific function:")
+print("# help(csv.reader)")
+
+# Demonstrate dir() function
+print(f"\nSome csv module attributes (using dir(csv)[:10]):")
+csv_attributes = dir(csv)[:10]  # Show first 10
+for attr in csv_attributes:
+    print(f"  {attr}")
+
+print("\n--- CSV Module Parameters ---")
+print("Common parameters you'll see in help(csv):")
+
+csv_parameters = {
+    "delimiter": "Character that separates fields (default: ',')",
+    "quotechar": "Character used to quote fields (default: '\"')",
+    "quoting": "Controls when to quote fields",
+    "skipinitialspace": "Ignore whitespace after delimiter",
+    "lineterminator": "String used to terminate lines",
+    "fieldnames": "Sequence of keys for DictReader/DictWriter"
+}
+
+for param, description in csv_parameters.items():
+    print(f"  {param}: {description}")
+
+# =============================================================================
+# COMPREHENSIVE EXAMPLE
+# =============================================================================
+
+print("\n" + "="*60)
+print("COMPREHENSIVE EXAMPLE")
+print("="*60)
+
+print("--- Complete File I/O Workflow ---")
+print("This example demonstrates most concepts from this guide")
+
+def process_employee_data():
+    """Complete example using multiple file I/O concepts."""
+    
+    # Step 1: Check if input file exists
+    input_file = "input_employees.csv"
+    output_file = "processed_employees.csv"
+    backup_file = "backup_employees.csv"
+    
+    print(f"1. Checking if input file exists...")
+    if not os.path.exists(input_file):
+        print(f"   Creating sample input file: {input_file}")
+        # Create sample data
+        sample_employees = [
+            ["name", "age", "department", "salary"],
+            ["Alice Johnson", "28", "Engineering", "75000"],
+            ["Bob Smith", "32", "Marketing", "65000"],
+            ["Charlie Brown", "29", "Engineering", "78000"],
+            ["Diana Prince", "35", "Management", "95000"],
+            ["Edward Norton", "26", "Sales", "55000"]
+        ]
+        
+        with open(input_file, "w", newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(sample_employees)
+        print(f"   Created {input_file}")
+    
+    # Step 2: Read and process data
+    print(f"\n2. Reading data from {input_file}...")
+    employees = []
+    
+    with open(input_file, "r") as file:
+        reader = csv.DictReader(file)
+        print(f"   Headers found: {reader.fieldnames}")
+        
+        for row in reader:
+            # Process data
+            employee = {
+                'name': row['name'],
+                'age': int(row['age']),
+                'department': row['department'],
+                'salary': int(row['salary']),
+                'salary_grade': 'High' if int(row['salary']) > 70000 else 'Standard'
+            }
+            employees.append(employee)
+    
+    print(f"   Loaded {len(employees)} employees")
+    
+    # Step 3: Create backup if output file exists
+    print(f"\n3. Checking for existing output file...")
+    if os.path.exists(output_file):
+        print(f"   Output file exists, creating backup...")
+        if os.path.exists(backup_file):
+            os.remove(backup_file)  # Remove old backup
+        
+        # Copy existing output to backup
+        with open(output_file, "r") as source:
+            with open(backup_file, "w") as target:
+                target.write(source.read())
+        print(f"   Backup created: {backup_file}")
+    
+    # Step 4: Write processed data
+    print(f"\n4. Writing processed data to {output_file}...")
+    fieldnames = ['name', 'age', 'department', 'salary', 'salary_grade']
+    
+    with open(output_file, "w", newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(employees)
+    
+    print(f"   Processed data written to {output_file}")
+    
+    # Step 5: Generate summary report
+    print(f"\n5. Generating summary report...")
+    summary_file = "employee_summary.txt"
+    
+    with open(summary_file, "w") as file:
+        file.write("EMPLOYEE SUMMARY REPORT\n")
+        file.write("=" * 50 + "\n\n")
+        
+        # Department statistics
+        dept_stats = {}
+        total_salary = 0
+        
+        for emp in employees:
+            dept = emp['department']
+            if dept not in dept_stats:
+                dept_stats[dept] = {'count': 0, 'total_salary': 0}
+            
+            dept_stats[dept]['count'] += 1
+            dept_stats[dept]['total_salary'] += emp['salary']
+            total_salary += emp['salary']
+        
+        file.write(f"Total Employees: {len(employees)}\n")
+        file.write(f"Total Salary Budget: ${total_salary:,}\n")
+        file.write(f"Average Salary: ${total_salary/len(employees):,.2f}\n\n")
+        
+        file.write("Department Breakdown:\n")
+        for dept, stats in dept_stats.items():
+            avg_salary = stats['total_salary'] / stats['count']
+            file.write(f"  {dept}: {stats['count']} employees, avg salary ${avg_salary:,.2f}\n")
+    
+    print(f"   Summary report created: {summary_file}")
+    
+    # Step 6: Compare files if backup exists
+    if os.path.exists(backup_file):
+        print(f"\n6. Comparing with backup...")
+        are_identical = filecmp.cmp(output_file, backup_file)
+        if are_identical:
+            print("   No changes detected - files are identical")
+            os.remove(backup_file)  # Remove unnecessary backup
+        else:
+            print("   Changes detected - backup preserved")
+    
+    # Step 7: Display results
+    print(f"\n7. Final results:")
+    with open(summary_file, "r") as file:
+        for line in file:
+            print(f"   {line.rstrip()}")
+    
+    return True
+
+# Run the comprehensive example
+print("Running comprehensive file I/O example...")
+success = process_employee_data()
+
+if success:
+    print(f"\n✓ Comprehensive example completed successfully!")
+    print(f"Files created: input_employees.csv, processed_employees.csv, employee_summary.txt")
+
+# =============================================================================
+# BEST PRACTICES SUMMARY
+# =============================================================================
+
+print("\n" + "="*60)
+print("BEST PRACTICES SUMMARY")
+print("="*60)
+
+print("--- File I/O Best Practices ---")
+best_practices = [
+    "Always use 'with' statement for file operations",
+    "Check if files exist before reading with os.path.exists()",
+    "Handle file errors with try/except blocks",
+    "Use csv module for CSV files, don't parse manually",
+    "Close files properly (automatic with 'with' statement)",
+    "Use appropriate file modes (r/w/a)",
+    "Use newline='' with csv.writer to avoid blank lines",
+    "Strip whitespace from lines when processing",
+    "Use DictReader/DictWriter for structured CSV data",
+    "Always specify fieldnames for DictWriter",
+    "Create backups before overwriting important files",
+    "Use help() and dir() to explore modules",
+    "Test file operations with small data first"
+]
+
+for i, practice in enumerate(best_practices, 1):
+    print(f"{i:2d}. {practice}")
+
+print("\n--- Common Pitfalls to Avoid ---")
+pitfalls = [
+    "Forgetting to close files (use 'with' statement)",
+    "Not handling FileNotFoundError when reading",
+    "Using write mode ('w') when you meant append ('a')",
+    "Forgetting newline='' with csv.writer",
+    "Not stripping newlines when processing lines",
+    "Trying to read deleted or moved files",
+    "Not backing up data before overwriting",
+    "Parsing CSV manually instead of using csv module",
+    "Not specifying fieldnames for DictWriter",
+    "Using os.rmdir() on non-empty directories"
+]
+
+for i, pitfall in enumerate(pitfalls, 1):
+    print(f"{i:2d}. {pitfall}")
+
+print("\n--- Quick Reference ---")
+print("File Operations:")
+print("  with open('file.txt', 'r') as f: content = f.read()")
+print("  with open('file.txt', 'w') as f: f.write('content')")
+print("  with open('file.txt', 'a') as f: f.write('more content')")
+
+print("\nCSV Operations:")
+print("  reader = csv.reader(file)")
+print("  writer = csv.writer(file, newline='')")
+print("  dict_reader = csv.DictReader(file)")
+print("  dict_writer = csv.DictWriter(file, fieldnames=['col1', 'col2'])")
+
+print("\nFile System:")
+print("  os.path.exists('file.txt') - check if exists")
+print("  os.remove('file.txt') - delete file")
+print("  os.rmdir('empty_dir') - delete empty directory")
+print("  shutil.rmtree('dir') - delete directory and contents")
+print("  filecmp.cmp('file1', 'file2') - compare files")
+
+print("\nGetting Help:")
+print("  help(csv) - show csv documentation")
+print("  dir(csv) - show csv attributes")
+print("  help(csv.reader) - show specific function help")
+
+print(f"\n🎉 Congratulations! You've completed the File I/O guide!")
+print(f"Practice with different files and CSV data to master these concepts.")
+
+# Clean up example files (optional)
+cleanup_files = [
+    "example.txt", "write_example.txt", "append_example.txt", 
+    "multiline_example.txt", "write_demo.txt", "iteration_example.txt",
+    "employees.csv", "employees_tab.csv", "output.csv", "batch_output.csv",
+    "custom.csv", "no_headers.csv", "dict_output.csv", "batch_dict_output.csv",
+    "identical1.txt", "identical2.txt", "different.txt",
+    "input_employees.csv", "processed_employees.csv", "employee_summary.txt"
+]
+
+print(f"\n--- Cleanup (Optional) ---")
+print(f"The following example files were created during this tutorial:")
+for filename in cleanup_files:
+    if os.path.exists(filename):
+        print(f"  ✓ {filename}")
+
+# Uncomment the next lines if you want to automatically clean up
+# print(f"\nCleaning up example files...")
+# for filename in cleanup_files:
+#     if os.path.exists(filename):
+#         os.remove(filename)
+# print(f"Cleanup completed!")
