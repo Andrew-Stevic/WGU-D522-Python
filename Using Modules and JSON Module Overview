@@ -1,0 +1,1145 @@
+# Python Modules and JSON: Complete Beginner Guide
+
+# =============================================================================
+# WHAT ARE MODULES?
+# =============================================================================
+
+print("--- Understanding Modules ---")
+print("A module is a file containing Python code that you can use in your program.")
+print("Think of modules as toolboxes - each one contains specific tools (functions) for different jobs.")
+print("Python comes with many built-in modules, and you can also create your own!")
+
+# Why use modules?
+print("\nWhy use modules?")
+print("1. REUSE CODE - Don't write the same functions over and over")
+print("2. ORGANIZATION - Keep related functions together") 
+print("3. BUILT-IN TOOLS - Python provides many useful modules for common tasks")
+print("4. COLLABORATION - Share code easily with others")
+
+# =============================================================================
+# IMPORTING MODULES
+# =============================================================================
+
+print("\n" + "="*60)
+print("IMPORTING MODULES")
+print("="*60)
+
+print("--- Different Ways to Import ---")
+
+# Method 1: Import entire module
+import math
+print("1. import math")
+print("   Usage: math.sqrt(16)")
+print(f"   Result: {math.sqrt(16)}")
+
+# Method 2: Import specific functions
+from math import sqrt, pi
+print("\n2. from math import sqrt, pi")
+print("   Usage: sqrt(16) and pi")
+print(f"   Results: sqrt(16) = {sqrt(16)}, pi = {pi}")
+
+# Method 3: Import with alias
+import math as m
+print("\n3. import math as m")
+print("   Usage: m.sqrt(16)")
+print(f"   Result: {m.sqrt(16)}")
+
+# Method 4: Import all (not recommended but shown for completeness)
+# from math import *  # Uncomment to see this in action
+print("\n4. from math import * (imports everything)")
+print("   Usage: Can use any math function directly")
+print("   WARNING: This can cause naming conflicts - use carefully!")
+
+# =============================================================================
+# STANDARD MODULES - MATH MODULE
+# =============================================================================
+
+print("\n" + "="*60)
+print("STANDARD MODULES - MATH MODULE")
+print("="*60)
+
+print("--- Math Module Functions ---")
+print("The math module provides mathematical functions and constants.")
+
+# Import math module
+import math
+
+# Common math functions
+print("\nCommon math functions:")
+
+# Basic operations
+numbers = [16, 25, 2.5, -3.7]
+for num in numbers:
+    print(f"\nNumber: {num}")
+    if num >= 0:
+        print(f"  math.sqrt({num}) = {math.sqrt(num)}")
+    print(f"  math.floor({num}) = {math.floor(num)}")
+    print(f"  math.ceil({num}) = {math.ceil(num)}")
+    print(f"  math.fabs({num}) = {math.fabs(num)}")  # absolute value
+
+# Powers and logarithms
+print(f"\nPowers and logarithms:")
+print(f"  math.pow(2, 3) = {math.pow(2, 3)}")
+print(f"  math.exp(1) = {math.exp(1)}")  # e^1
+print(f"  math.log(10) = {math.log(10)}")  # natural log
+print(f"  math.log10(100) = {math.log10(100)}")  # base 10 log
+
+# Trigonometric functions (angles in radians)
+print(f"\nTrigonometric functions:")
+angle = math.pi / 4  # 45 degrees in radians
+print(f"  Angle: {angle} radians (45 degrees)")
+print(f"  math.sin({angle}) = {math.sin(angle)}")
+print(f"  math.cos({angle}) = {math.cos(angle)}")
+print(f"  math.tan({angle}) = {math.tan(angle)}")
+
+# Convert between degrees and radians
+print(f"\nAngle conversion:")
+degrees = 90
+radians = math.radians(degrees)
+print(f"  math.radians({degrees}) = {radians}")
+print(f"  math.degrees({radians}) = {math.degrees(radians)}")
+
+# Math constants
+print(f"\nMath constants:")
+print(f"  math.pi = {math.pi}")
+print(f"  math.e = {math.e}")
+print(f"  math.tau = {math.tau}")  # 2 * pi
+
+# Using help with math module
+print("\n--- Using help() with Math Module ---")
+print("You can get help on any module or function:")
+print("  help(math)           # Get help on entire math module")
+print("  help(math.sqrt)      # Get help on specific function")
+print("  dir(math)            # List all functions in math module")
+
+# Let's see what's in the math module
+print(f"\nSome functions available in math module:")
+math_functions = [name for name in dir(math) if not name.startswith('_')]
+print(f"First 10 functions: {math_functions[:10]}")
+print(f"Total functions/constants: {len(math_functions)}")
+
+# Practical math example
+print("\n--- Practical Math Example ---")
+print("Calculate the distance between two points using math module:")
+
+def calculate_distance(x1, y1, x2, y2):
+    """Calculate distance between two points using Pythagorean theorem."""
+    distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+    return distance
+
+# Test the function
+point1 = (0, 0)
+point2 = (3, 4)
+distance = calculate_distance(point1[0], point1[1], point2[0], point2[1])
+print(f"Distance between {point1} and {point2}: {distance}")
+
+# =============================================================================
+# STANDARD MODULES - CSV MODULE
+# =============================================================================
+
+print("\n" + "="*60)
+print("STANDARD MODULES - CSV MODULE")
+print("="*60)
+
+print("--- CSV Module Functions ---")
+print("The csv module helps you read and write CSV (Comma Separated Values) files.")
+
+import csv
+import io  # For creating in-memory files in this example
+
+# Creating sample CSV data for demonstration
+sample_csv_data = """name,age,city,salary
+Alice,25,New York,50000
+Bob,30,Los Angeles,60000
+Charlie,35,Chicago,55000
+Diana,28,Houston,52000"""
+
+print("Sample CSV data:")
+print(sample_csv_data)
+
+# Method 1: Reading CSV data
+print("\n--- Reading CSV Data ---")
+
+# Create a file-like object from our sample data
+csv_file = io.StringIO(sample_csv_data)
+
+# Using csv.reader()
+csv_file.seek(0)  # Reset to beginning
+csv_reader = csv.reader(csv_file)
+
+print("Using csv.reader():")
+row_count = 0
+for row in csv_reader:
+    if row_count == 0:
+        print(f"  Headers: {row}")
+    else:
+        print(f"  Row {row_count}: {row}")
+    row_count += 1
+
+# Method 2: Reading CSV with DictReader
+print("\nUsing csv.DictReader():")
+csv_file.seek(0)  # Reset to beginning
+dict_reader = csv.DictReader(csv_file)
+
+for row_num, row in enumerate(dict_reader, 1):
+    print(f"  Person {row_num}: {dict(row)}")
+
+# Method 3: Writing CSV data
+print("\n--- Writing CSV Data ---")
+
+# Sample data to write
+employees = [
+    ['Name', 'Department', 'Years'],
+    ['John', 'Engineering', 5],
+    ['Sarah', 'Marketing', 3],
+    ['Mike', 'Sales', 7]
+]
+
+# Writing to a string buffer (simulating a file)
+output_buffer = io.StringIO()
+
+# Using csv.writer()
+csv_writer = csv.writer(output_buffer)
+for row in employees:
+    csv_writer.writerow(row)
+
+written_csv = output_buffer.getvalue()
+print("CSV data written:")
+print(written_csv)
+
+# Method 4: Writing CSV with DictWriter
+print("Using csv.DictWriter():")
+output_buffer2 = io.StringIO()
+
+fieldnames = ['name', 'position', 'experience']
+dict_writer = csv.DictWriter(output_buffer2, fieldnames=fieldnames)
+
+# Write header
+dict_writer.writeheader()
+
+# Write data rows
+people_data = [
+    {'name': 'Anna', 'position': 'Developer', 'experience': 4},
+    {'name': 'Tom', 'position': 'Designer', 'experience': 2},
+    {'name': 'Lisa', 'position': 'Manager', 'experience': 8}
+]
+
+for person in people_data:
+    dict_writer.writerow(person)
+
+written_dict_csv = output_buffer2.getvalue()
+print(written_dict_csv)
+
+# CSV reading with different delimiters
+print("\n--- CSV with Different Delimiters ---")
+
+# Sample data with semicolon delimiter
+semicolon_data = "product;price;quantity\nApples;1.50;100\nBananas;0.80;150"
+print(f"Data with semicolon delimiter:")
+print(semicolon_data)
+
+# Reading with custom delimiter
+semicolon_file = io.StringIO(semicolon_data)
+semicolon_reader = csv.reader(semicolon_file, delimiter=';')
+
+print("Reading with semicolon delimiter:")
+for row in semicolon_reader:
+    print(f"  {row}")
+
+# Using help with CSV module
+print("\n--- Using help() with CSV Module ---")
+print("Get help on CSV module:")
+print("  help(csv)              # Get help on entire csv module")
+print("  help(csv.reader)       # Get help on csv.reader function")
+print("  help(csv.DictReader)   # Get help on csv.DictReader class")
+print("  dir(csv)               # List all functions in csv module")
+
+# Show some CSV module contents
+csv_items = [name for name in dir(csv) if not name.startswith('_')]
+print(f"\nSome items in csv module: {csv_items}")
+
+# =============================================================================
+# CUSTOM MODULES
+# =============================================================================
+
+print("\n" + "="*60)
+print("CUSTOM MODULES")
+print("="*60)
+
+print("--- Creating Custom Modules ---")
+print("You can create your own modules by saving Python code in a .py file")
+
+# Simulating a custom module (normally this would be in a separate file)
+class DataProcessor:
+    """Simulated custom module for data processing."""
+    
+    @staticmethod
+    def clean_data(data_list):
+        """Remove None values and convert strings to numbers where possible."""
+        cleaned = []
+        for item in data_list:
+            if item is not None:
+                try:
+                    # Try to convert to number
+                    if isinstance(item, str) and item.strip().replace('.', '', 1).isdigit():
+                        cleaned.append(float(item) if '.' in item else int(item))
+                    else:
+                        cleaned.append(item)
+                except:
+                    cleaned.append(item)
+        return cleaned
+    
+    @staticmethod
+    def calculate_stats(numbers):
+        """Calculate basic statistics for a list of numbers."""
+        if not numbers:
+            return None
+        
+        numbers = [n for n in numbers if isinstance(n, (int, float))]
+        if not numbers:
+            return None
+        
+        return {
+            'count': len(numbers),
+            'sum': sum(numbers),
+            'average': sum(numbers) / len(numbers),
+            'min': min(numbers),
+            'max': max(numbers)
+        }
+    
+    @staticmethod
+    def filter_data(data, condition_func):
+        """Filter data based on a condition function."""
+        return [item for item in data if condition_func(item)]
+
+# Using our "custom module"
+print("--- Using Custom Module Functions ---")
+
+# Sample messy data
+messy_data = [1, '2', 3.5, None, '4.7', 'text', 8, None, '10']
+print(f"Original messy data: {messy_data}")
+
+# Clean the data
+clean_data = DataProcessor.clean_data(messy_data)
+print(f"Cleaned data: {clean_data}")
+
+# Calculate statistics
+stats = DataProcessor.calculate_stats(clean_data)
+print(f"Statistics: {stats}")
+
+# Filter data (get numbers greater than 3)
+filtered_data = DataProcessor.filter_data(clean_data, lambda x: isinstance(x, (int, float)) and x > 3)
+print(f"Numbers greater than 3: {filtered_data}")
+
+print("\n--- How to Create Your Own Module ---")
+print("1. Create a new .py file (e.g., my_utilities.py)")
+print("2. Write your functions in that file")
+print("3. Save the file in the same folder as your main program")
+print("4. Import it: import my_utilities")
+print("5. Use it: my_utilities.my_function()")
+
+# Example of what a custom module file might look like
+print("\nExample custom module file (my_utilities.py):")
+print('''
+def greet(name):
+    """Return a personalized greeting."""
+    return f"Hello, {name}!"
+
+def calculate_tip(bill_amount, tip_percentage=15):
+    """Calculate tip amount."""
+    return bill_amount * (tip_percentage / 100)
+
+PI = 3.14159
+
+class Calculator:
+    @staticmethod
+    def add(a, b):
+        return a + b
+''')
+
+print("Then in your main program:")
+print("import my_utilities")
+print("print(my_utilities.greet('Alice'))")
+print("tip = my_utilities.calculate_tip(50.00, 20)")
+
+# =============================================================================
+# JSON MODULE
+# =============================================================================
+
+print("\n" + "="*60)
+print("JSON MODULE")
+print("="*60)
+
+print("--- Understanding JSON ---")
+print("JSON (JavaScript Object Notation) is a popular data format for storing and exchanging data.")
+print("It looks similar to Python dictionaries and lists.")
+print("JSON is used in web APIs, configuration files, and data storage.")
+
+import json
+
+# What JSON looks like
+print("\nJSON format examples:")
+print('  String: "Hello World"')
+print('  Number: 42')
+print('  Boolean: true or false')
+print('  Null: null')
+print('  Array: [1, 2, 3]')
+print('  Object: {"name": "Alice", "age": 25}')
+
+# =============================================================================
+# JSON MODULE FUNCTIONS
+# =============================================================================
+
+print("\n--- The Four Main JSON Functions ---")
+print("1. json.loads() - Convert JSON STRING to Python object")
+print("2. json.dumps() - Convert Python object to JSON STRING") 
+print("3. json.load()  - Read JSON from FILE to Python object")
+print("4. json.dump()  - Write Python object to JSON FILE")
+
+print("\nMemory trick:")
+print("  'loads' = load from string")
+print("  'dumps' = dump to string")
+print("  'load'  = load from file")
+print("  'dump'  = dump to file")
+
+# =============================================================================
+# JSON.LOADS - STRING TO PYTHON
+# =============================================================================
+
+print("\n" + "="*50)
+print("JSON.LOADS - CONVERT JSON STRING TO PYTHON")
+print("="*50)
+
+print("--- Using json.loads() ---")
+print("json.loads() takes a JSON string and converts it to a Python object")
+
+# Example 1: Simple JSON string
+json_string = '{"name": "Alice", "age": 25, "city": "New York"}'
+print(f"\nJSON string: {json_string}")
+
+# Convert to Python dictionary
+python_dict = json.loads(json_string)
+print(f"After json.loads(): {python_dict}")
+print(f"Type: {type(python_dict)}")
+print(f"Access name: {python_dict['name']}")
+
+# Example 2: JSON array
+json_array = '[1, 2, 3, 4, 5]'
+print(f"\nJSON array: {json_array}")
+
+python_list = json.loads(json_array)
+print(f"After json.loads(): {python_list}")
+print(f"Type: {type(python_list)}")
+
+# Example 3: Complex JSON
+complex_json = '''
+{
+    "employees": [
+        {"name": "John", "department": "IT", "salary": 50000},
+        {"name": "Sarah", "department": "HR", "salary": 45000}
+    ],
+    "company": "Tech Corp",
+    "locations": ["New York", "Los Angeles"]
+}
+'''
+
+print(f"\nComplex JSON:")
+print(complex_json)
+
+complex_data = json.loads(complex_json)
+print(f"After json.loads():")
+print(f"  Company: {complex_data['company']}")
+print(f"  First employee: {complex_data['employees'][0]}")
+print(f"  Locations: {complex_data['locations']}")
+
+# Example 4: Handling JSON with different data types
+mixed_json = '{"text": "Hello", "number": 42, "boolean": true, "null_value": null}'
+print(f"\nMixed data types JSON: {mixed_json}")
+
+mixed_data = json.loads(mixed_json)
+print(f"After json.loads(): {mixed_data}")
+print("Data types:")
+for key, value in mixed_data.items():
+    print(f"  {key}: {value} (type: {type(value).__name__})")
+
+# Example 5: Error handling with json.loads()
+print("\n--- Error Handling with json.loads() ---")
+
+invalid_json = '{"name": "Alice", "age": 25,}'  # Extra comma makes it invalid
+print(f"Invalid JSON: {invalid_json}")
+
+try:
+    result = json.loads(invalid_json)
+    print(f"Success: {result}")
+except json.JSONDecodeError as e:
+    print(f"JSON Error: {e}")
+    print("This is why error handling is important!")
+
+# =============================================================================
+# JSON.DUMPS - PYTHON TO STRING
+# =============================================================================
+
+print("\n" + "="*50)
+print("JSON.DUMPS - CONVERT PYTHON TO JSON STRING")
+print("="*50)
+
+print("--- Using json.dumps() ---")
+print("json.dumps() takes a Python object and converts it to a JSON string")
+
+# Example 1: Dictionary to JSON
+person = {
+    "name": "Bob",
+    "age": 30,
+    "married": True,
+    "children": None,
+    "hobbies": ["reading", "swimming"]
+}
+
+print(f"Python dictionary: {person}")
+
+json_string = json.dumps(person)
+print(f"After json.dumps(): {json_string}")
+print(f"Type: {type(json_string)}")
+
+# Example 2: List to JSON
+numbers = [1, 2, 3, 4, 5]
+json_numbers = json.dumps(numbers)
+print(f"\nPython list: {numbers}")
+print(f"JSON string: {json_numbers}")
+
+# Example 3: Pretty printing with indent
+print("\n--- Pretty Printing with json.dumps() ---")
+
+data = {
+    "users": [
+        {"id": 1, "name": "Alice", "email": "alice@email.com"},
+        {"id": 2, "name": "Bob", "email": "bob@email.com"}
+    ],
+    "total_users": 2
+}
+
+# Default (compact) format
+compact_json = json.dumps(data)
+print("Compact format:")
+print(compact_json)
+
+# Pretty format with indentation
+pretty_json = json.dumps(data, indent=2)
+print("\nPretty format (indent=2):")
+print(pretty_json)
+
+# Example 4: Handling different data types
+print("\n--- Data Type Conversion ---")
+
+python_data = {
+    "string": "Hello",
+    "integer": 42,
+    "float": 3.14,
+    "boolean": True,
+    "none": None,
+    "list": [1, 2, 3],
+    "nested_dict": {"key": "value"}
+}
+
+print("Python data with types:")
+for key, value in python_data.items():
+    print(f"  {key}: {value} ({type(value).__name__})")
+
+json_result = json.dumps(python_data)
+print(f"\nJSON string: {json_result}")
+
+# Convert back to see the types
+back_to_python = json.loads(json_result)
+print("\nAfter converting back from JSON:")
+for key, value in back_to_python.items():
+    print(f"  {key}: {value} ({type(value).__name__})")
+
+# =============================================================================
+# JSON.LOAD - FILE TO PYTHON
+# =============================================================================
+
+print("\n" + "="*50)
+print("JSON.LOAD - READ JSON FILE TO PYTHON")
+print("="*50)
+
+print("--- Using json.load() ---")
+print("json.load() reads JSON data from a file and converts it to Python objects")
+
+# Create sample JSON data to write to a file
+sample_data = {
+    "products": [
+        {"id": 1, "name": "Laptop", "price": 999.99, "in_stock": True},
+        {"id": 2, "name": "Mouse", "price": 29.99, "in_stock": False},
+        {"id": 3, "name": "Keyboard", "price": 79.99, "in_stock": True}
+    ],
+    "store_name": "Tech Store",
+    "last_updated": "2024-01-15"
+}
+
+# Simulate reading from a file using StringIO
+import io
+json_file_content = json.dumps(sample_data, indent=2)
+print("Sample JSON file content:")
+print(json_file_content)
+
+# Simulate json.load() from file
+json_file = io.StringIO(json_file_content)
+loaded_data = json.load(json_file)
+
+print(f"\nAfter json.load():")
+print(f"Store name: {loaded_data['store_name']}")
+print(f"Number of products: {len(loaded_data['products'])}")
+print("Products in stock:")
+for product in loaded_data['products']:
+    if product['in_stock']:
+        print(f"  - {product['name']}: ${product['price']}")
+
+# Example of how you would use it with a real file
+print("\n--- Real File Example ---")
+print("# To read from an actual file:")
+print("with open('data.json', 'r') as file:")
+print("    data = json.load(file)")
+print("    print(data)")
+
+# Example with error handling
+print("\n--- Error Handling with json.load() ---")
+print("Always use error handling when reading files:")
+print("""
+try:
+    with open('data.json', 'r') as file:
+        data = json.load(file)
+        print("Data loaded successfully!")
+except FileNotFoundError:
+    print("JSON file not found!")
+except json.JSONDecodeError as e:
+    print(f"Invalid JSON format: {e}")
+except Exception as e:
+    print(f"Error reading file: {e}")
+""")
+
+# =============================================================================
+# JSON.DUMP - PYTHON TO FILE
+# =============================================================================
+
+print("\n" + "="*50)
+print("JSON.DUMP - WRITE PYTHON TO JSON FILE")
+print("="*50)
+
+print("--- Using json.dump() ---")
+print("json.dump() writes Python objects to a JSON file")
+
+# Data to save
+user_data = {
+    "settings": {
+        "theme": "dark",
+        "language": "en",
+        "notifications": True
+    },
+    "user_info": {
+        "username": "john_doe",
+        "email": "john@example.com",
+        "preferences": ["news", "sports", "technology"]
+    },
+    "last_login": "2024-01-15T10:30:00"
+}
+
+print("Data to save:")
+print(json.dumps(user_data, indent=2))
+
+# Simulate writing to file
+output_buffer = io.StringIO()
+json.dump(user_data, output_buffer, indent=2)
+written_content = output_buffer.getvalue()
+
+print(f"\nContent written to file:")
+print(written_content)
+
+# Example of real file usage
+print("\n--- Real File Example ---")
+print("# To write to an actual file:")
+print("with open('user_settings.json', 'w') as file:")
+print("    json.dump(user_data, file, indent=2)")
+print("    print('Data saved successfully!')")
+
+# Example with different formatting options
+print("\n--- Formatting Options ---")
+
+# Compact format
+compact_buffer = io.StringIO()
+json.dump(user_data, compact_buffer)
+compact_result = compact_buffer.getvalue()
+print("Compact format:")
+print(compact_result[:100] + "..." if len(compact_result) > 100 else compact_result)
+
+# Pretty format with custom separator
+pretty_buffer = io.StringIO()
+json.dump(user_data, pretty_buffer, indent=4, separators=(',', ': '))
+pretty_result = pretty_buffer.getvalue()
+print("\nPretty format (indent=4):")
+print(pretty_result)
+
+# =============================================================================
+# USING HELP WITH JSON
+# =============================================================================
+
+print("\n" + "="*50)
+print("USING HELP WITH JSON MODULE")
+print("="*50)
+
+print("--- Getting Help on JSON Module ---")
+print("You can get detailed help on the JSON module and its functions:")
+
+print("\nCommands to get help:")
+print("  help(json)         # Complete JSON module documentation")
+print("  help(json.loads)   # Help on json.loads function")
+print("  help(json.dumps)   # Help on json.dumps function") 
+print("  help(json.load)    # Help on json.load function")
+print("  help(json.dump)    # Help on json.dump function")
+print("  dir(json)          # List all items in json module")
+
+# Show what's available in json module
+json_items = [item for item in dir(json) if not item.startswith('_')]
+print(f"\nItems available in json module:")
+for i, item in enumerate(json_items):
+    if i % 4 == 0:
+        print()
+    print(f"{item:20}", end="")
+print()
+
+# Function signatures (what parameters they take)
+print(f"\n--- Function Signatures ---")
+print("json.loads(s, *, cls=None, object_hook=None, parse_float=None, ...)")
+print("  - s: JSON string to parse")
+print("  - Returns: Python object")
+print()
+print("json.dumps(obj, *, skipkeys=False, ensure_ascii=True, indent=None, ...)")
+print("  - obj: Python object to convert")
+print("  - indent: Number of spaces for pretty printing")
+print("  - Returns: JSON string")
+print()
+print("json.load(fp, *, cls=None, object_hook=None, parse_float=None, ...)")
+print("  - fp: File object to read from")
+print("  - Returns: Python object")
+print()
+print("json.dump(obj, fp, *, skipkeys=False, ensure_ascii=True, indent=None, ...)")
+print("  - obj: Python object to write")
+print("  - fp: File object to write to")
+print("  - Returns: None")
+
+# =============================================================================
+# PRACTICAL JSON EXAMPLES
+# =============================================================================
+
+print("\n" + "="*60)
+print("PRACTICAL JSON EXAMPLES")
+print("="*60)
+
+print("--- Complete JSON Workflow Example ---")
+
+# Step 1: Create some data
+original_data = {
+    "inventory": [
+        {"product": "Laptop", "quantity": 5, "price": 1200.00},
+        {"product": "Phone", "quantity": 15, "price": 800.00},
+        {"product": "Tablet", "quantity": 8, "price": 400.00}
+    ],
+    "store_id": "STORE001",
+    "last_updated": "2024-01-15"
+}
+
+print("Step 1 - Original Python data:")
+print(json.dumps(original_data, indent=2))
+
+# Step 2: Convert to JSON string (for sending over network, etc.)
+json_string = json.dumps(original_data)
+print(f"\nStep 2 - Converted to JSON string:")
+print(f"Length: {len(json_string)} characters")
+print(f"Preview: {json_string[:80]}...")
+
+# Step 3: Convert back to Python (simulate receiving data)
+received_data = json.loads(json_string)
+print(f"\nStep 3 - Converted back to Python:")
+print(f"Store ID: {received_data['store_id']}")
+print(f"Number of products: {len(received_data['inventory'])}")
+
+# Step 4: Process the data
+total_value = sum(item['quantity'] * item['price'] for item in received_data['inventory'])
+print(f"\nStep 4 - Processing data:")
+print(f"Total inventory value: ${total_value:,.2f}")
+
+# Step 5: Save processed data (simulate saving to file)
+processed_data = {
+    **received_data,
+    "total_inventory_value": total_value,
+    "processed_date": "2024-01-15T14:30:00"
+}
+
+# Simulate saving to file
+save_buffer = io.StringIO()
+json.dump(processed_data, save_buffer, indent=2)
+saved_content = save_buffer.getvalue()
+
+print(f"\nStep 5 - Saved to file:")
+print("First few lines of saved file:")
+lines = saved_content.split('\n')[:8]
+for line in lines:
+    print(f"  {line}")
+
+print("\n--- Common JSON Use Cases ---")
+
+# Use Case 1: Configuration files
+config_data = {
+    "database": {
+        "host": "localhost",
+        "port": 5432,
+        "name": "myapp_db"
+    },
+    "api": {
+        "version": "v1",
+        "timeout": 30,
+        "max_retries": 3
+    }
+}
+
+config_json = json.dumps(config_data, indent=2)
+print("1. Configuration file (config.json):")
+print(config_json)
+
+# Use Case 2: API responses
+api_response = {
+    "status": "success",
+    "data": {
+        "user_id": 123,
+        "username": "alice",
+        "permissions": ["read", "write"]
+    },
+    "timestamp": "2024-01-15T10:30:00Z"
+}
+
+print(f"\n2. API response:")
+print(json.dumps(api_response, indent=2))
+
+# Use Case 3: Data storage
+user_records = [
+    {"id": 1, "name": "Alice", "active": True},
+    {"id": 2, "name": "Bob", "active": False},
+    {"id": 3, "name": "Charlie", "active": True}
+]
+
+print(f"\n3. Data storage (users.json):")
+print(json.dumps(user_records, indent=2))
+
+# =============================================================================
+# SUMMARY AND BEST PRACTICES
+# =============================================================================
+
+print("\n" + "="*60)
+print("SUMMARY AND BEST PRACTICES")
+print("="*60)
+
+print("--- Module Summary ---")
+print("1. MODULES are reusable code packages")
+print("2. IMPORT modules to use their functions")
+print("3. STANDARD modules (math, csv) come with Python")
+print("4. CUSTOM modules are .py files you create")
+print("5. Use help() to learn about any module")
+
+print("\n--- JSON Summary ---") 
+print("Four main JSON functions:")
+print("  json.loads() - JSON string → Python object")
+print("  json.dumps() - Python object → JSON string")
+print("  json.load()  - JSON file → Python object")
+print("  json.dump()  - Python object → JSON file")
+
+print("\n--- Best Practices ---")
+
+print("Module Best Practices:")
+print("1. Import only what you need: from math import sqrt")
+print("2. Use descriptive aliases: import numpy as np")
+print("3. Put imports at the top of your file")
+print("4. Use help() when you're unsure about a function")
+print("5. Organize related functions into custom modules")
+
+print("\nJSON Best Practices:")
+print("1. Always use try/except when parsing JSON")
+print("2. Use indent parameter for readable output")
+print("3. Remember: JSON uses double quotes, not single")
+print("4. Test your JSON with online validators")
+print("5. Keep JSON files simple and well-structured")
+
+# =============================================================================
+# ERROR HANDLING EXAMPLES
+# =============================================================================
+
+print("\n" + "="*60)
+print("ERROR HANDLING EXAMPLES")
+print("="*60)
+
+print("--- Handling Module Import Errors ---")
+
+print("Safe module importing:")
+print("""
+try:
+    import requests
+    print("Requests module available")
+except ImportError:
+    print("Requests module not installed")
+    print("Install with: pip install requests")
+""")
+
+# Demonstrate safe module usage
+print("\n--- Safe Module Usage ---")
+
+def safe_sqrt(number):
+    """Safely calculate square root with error handling."""
+    try:
+        import math
+        if number < 0:
+            return f"Error: Cannot calculate square root of negative number"
+        return math.sqrt(number)
+    except ImportError:
+        return "Error: Math module not available"
+    except Exception as e:
+        return f"Error: {e}"
+
+# Test safe function
+test_numbers = [16, -4, 25, 0]
+print("Testing safe_sqrt function:")
+for num in test_numbers:
+    result = safe_sqrt(num)
+    print(f"  safe_sqrt({num}) = {result}")
+
+print("\n--- Handling JSON Errors ---")
+
+def safe_json_parse(json_string):
+    """Safely parse JSON with comprehensive error handling."""
+    try:
+        return json.loads(json_string)
+    except json.JSONDecodeError as e:
+        return f"JSON parsing error: {e}"
+    except TypeError as e:
+        return f"Type error: {e}"
+    except Exception as e:
+        return f"Unexpected error: {e}"
+
+# Test with various JSON strings
+test_json_strings = [
+    '{"name": "Alice", "age": 25}',  # Valid JSON
+    '{"name": "Bob", "age": 30,}',   # Invalid JSON (extra comma)
+    '{"name": Alice, "age": 25}',    # Invalid JSON (unquoted string)
+    None,                            # Not a string
+    '{"valid": "json"}'              # Valid JSON
+]
+
+print("Testing safe_json_parse function:")
+for i, json_str in enumerate(test_json_strings):
+    result = safe_json_parse(json_str)
+    print(f"  Test {i+1}: {result}")
+
+# =============================================================================
+# PRACTICE EXERCISES
+# =============================================================================
+
+print("\n" + "="*60)
+print("PRACTICE EXERCISES")
+print("="*60)
+
+print("--- Exercise 1: Math Module ---")
+print("Use the math module to solve these problems:")
+
+exercise_1_problems = [
+    ("Calculate the square root of 144", "math.sqrt(144)"),
+    ("Find the ceiling of 7.3", "math.ceil(7.3)"),
+    ("Calculate 2 to the power of 8", "math.pow(2, 8)"),
+    ("Convert 45 degrees to radians", "math.radians(45)"),
+    ("Find the factorial of 5", "math.factorial(5)")
+]
+
+print("Problems to solve:")
+for i, (problem, solution_hint) in enumerate(exercise_1_problems, 1):
+    print(f"  {i}. {problem}")
+    if i <= 3:  # Show solutions for first 3
+        result = eval(solution_hint)
+        print(f"     Solution: {solution_hint} = {result}")
+
+print("\n--- Exercise 2: CSV Module ---")
+print("Practice with CSV data:")
+
+# Create sample CSV data for exercise
+exercise_csv = """product,category,price,stock
+Laptop,Electronics,1200.00,5
+Mouse,Electronics,25.99,50
+Keyboard,Electronics,75.50,30
+Chair,Furniture,199.99,12
+Desk,Furniture,299.99,8"""
+
+print("Sample CSV data:")
+print(exercise_csv)
+
+print("\nTasks:")
+print("1. Read the CSV data")
+print("2. Find the most expensive product")
+print("3. Calculate total value of all stock")
+print("4. List products under $100")
+
+# Solution for task 1 and 2
+csv_file = io.StringIO(exercise_csv)
+reader = csv.DictReader(csv_file)
+products = list(reader)
+
+print(f"\nSolution preview:")
+print(f"1. Read CSV: {len(products)} products loaded")
+
+# Find most expensive
+most_expensive = max(products, key=lambda x: float(x['price']))
+print(f"2. Most expensive: {most_expensive['product']} (${most_expensive['price']})")
+
+print("\n--- Exercise 3: JSON Module ---")
+print("Practice JSON operations:")
+
+# Sample data for JSON exercise
+student_data = {
+    "students": [
+        {"name": "Alice", "grades": [85, 92, 78, 96], "major": "Computer Science"},
+        {"name": "Bob", "grades": [90, 88, 85, 92], "major": "Mathematics"},
+        {"name": "Charlie", "grades": [78, 85, 90, 87], "major": "Physics"}
+    ],
+    "semester": "Fall 2024",
+    "course": "Data Structures"
+}
+
+print("Sample student data:")
+print(json.dumps(student_data, indent=2))
+
+print("\nTasks:")
+print("1. Convert to JSON string")
+print("2. Parse JSON string back to Python")
+print("3. Calculate average grade for each student")
+print("4. Find student with highest average")
+
+# Solution preview
+json_str = json.dumps(student_data)
+parsed_data = json.loads(json_str)
+
+print(f"\nSolution preview:")
+print(f"1. JSON string length: {len(json_str)} characters")
+print(f"2. Parsed back successfully: {len(parsed_data['students'])} students")
+
+# Calculate averages
+for student in parsed_data['students']:
+    avg = sum(student['grades']) / len(student['grades'])
+    student['average'] = round(avg, 2)
+    print(f"3. {student['name']}: {student['average']} average")
+
+best_student = max(parsed_data['students'], key=lambda x: x['average'])
+print(f"4. Highest average: {best_student['name']} ({best_student['average']})")
+
+# =============================================================================
+# COMMON MISTAKES AND SOLUTIONS
+# =============================================================================
+
+print("\n" + "="*60)
+print("COMMON MISTAKES AND SOLUTIONS")
+print("="*60)
+
+print("--- Common Module Mistakes ---")
+
+print("1. MISTAKE: Forgetting to import")
+print("   # Wrong:")
+print("   result = sqrt(16)  # NameError!")
+print("   # Correct:")
+print("   import math")
+print("   result = math.sqrt(16)")
+
+print("\n2. MISTAKE: Importing incorrectly")
+print("   # Wrong:")
+print("   from math import *")
+print("   # Better:")
+print("   from math import sqrt, pi")
+
+print("\n3. MISTAKE: Not using help()")
+print("   # When stuck, always try:")
+print("   help(math)")
+print("   help(math.sqrt)")
+
+print("\n--- Common JSON Mistakes ---")
+
+print("1. MISTAKE: Forgetting quotes in JSON")
+print("   # Wrong JSON:")
+print("   {name: 'Alice', age: 25}")
+print("   # Correct JSON:")
+print('   {"name": "Alice", "age": 25}')
+
+print("\n2. MISTAKE: Not handling errors")
+print("   # Wrong:")
+print("   data = json.loads(user_input)")
+print("   # Correct:")
+print("   try:")
+print("       data = json.loads(user_input)")
+print("   except json.JSONDecodeError:")
+print("       print('Invalid JSON')")
+
+print("\n3. MISTAKE: Confusing loads/dumps vs load/dump")
+print("   # Remember:")
+print("   loads/dumps = work with STRINGS")
+print("   load/dump = work with FILES")
+
+print("\n4. MISTAKE: Forgetting to close files")
+print("   # Wrong:")
+print("   file = open('data.json')")
+print("   data = json.load(file)")
+print("   # Correct:")
+print("   with open('data.json') as file:")
+print("       data = json.load(file)")
+
+# =============================================================================
+# FINAL SUMMARY
+# =============================================================================
+
+print("\n" + "="*60)
+print("FINAL SUMMARY")
+print("="*60)
+
+print("--- What You've Learned ---")
+print("✓ How to import and use modules")
+print("✓ Working with the math module")
+print("✓ Working with the csv module")
+print("✓ Creating and using custom modules")
+print("✓ All four JSON functions (loads, dumps, load, dump)")
+print("✓ Error handling for modules and JSON")
+print("✓ Best practices and common mistakes")
+
+print("\n--- Key Takeaways ---")
+print("1. MODULES make your code more organized and reusable")
+print("2. STANDARD MODULES provide powerful built-in functionality")
+print("3. JSON is essential for data exchange and storage")
+print("4. Always use ERROR HANDLING with file operations")
+print("5. Use HELP() when you need more information")
+
+print("\n--- Next Steps ---")
+print("1. Practice with more modules (datetime, random, os)")
+print("2. Create your own custom modules")
+print("3. Work with real JSON files and APIs")
+print("4. Explore advanced JSON features")
+print("5. Learn about package management with pip")
+
+print("\n--- Quick Reference ---")
+print("Module imports:")
+print("  import module_name")
+print("  from module_name import function_name")
+print("  import module_name as alias")
+
+print("\nJSON functions:")
+print("  json.loads(json_string)     # String to Python")
+print("  json.dumps(python_object)   # Python to string")
+print("  json.load(file_object)      # File to Python")
+print("  json.dump(python_obj, file) # Python to file")
+
+print("\nGetting help:")
+print("  help(module_name)")
+print("  help(module_name.function_name)")
+print("  dir(module_name)")
+
+print("\n" + "="*60)
+print("END OF GUIDE - HAPPY CODING!")
+print("="*60)
