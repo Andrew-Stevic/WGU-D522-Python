@@ -1,0 +1,201 @@
+# Checking methods (return True/False)
+print(f"islower(): {sample_text.islower()}")
+print(f"isupper(): {sample_text.isupper()}")
+print(f"isdigit(): {'123'.isdigit()}")
+print(f"isalpha(): {'Hello'.isalpha()}")
+print(f"isalnum(): {'Hello123'.isalnum()}")
+
+# Search and count methods
+print(f"count('o'): {sample_text.count('o')}")
+print(f"count('Python'): {sample_text.count('Python')}")
+print(f"find('World'): {sample_text.find('World')}")    # Returns index or -1
+print(f"index('Python'): {sample_text.index('Python')}")  # Returns index or error
+
+# startswith() and endswith()
+print(f"startswith('Hello'): {sample_text.startswith('Hello')}")
+print(f"endswith('Programming'): {sample_text.endswith('Programming')}")
+
+# replace() method
+original = "I like cats and cats like me"
+replaced = original.replace("cats", "dogs")
+print(f"Replace 'cats' with 'dogs': '{replaced}'")
+
+# Replace with limit
+limited_replace = original.replace("cats", "dogs", 1)  # Replace only first occurrence
+print(f"Replace first 'cats' only: '{limited_replace}'")
+
+# =============================================================================
+# USING help(str) - Understanding Available Methods
+# =============================================================================
+
+print("\n--- Using help(str) ---")
+print("To see all string methods, run: help(str)")
+print("To see help for a specific method, run: help(str.methodname)")
+print("Example: help(str.split)")
+print("\nSome commonly used string methods:")
+
+# Get all string methods (excluding private ones)
+string_methods = [method for method in dir(str) if not method.startswith('_')]
+print("Available string methods:")
+for i, method in enumerate(string_methods, 1):
+    print(f"  {method}", end="")
+    if i % 6 == 0:  # New line every 6 methods
+        print()
+    else:
+        print(", ", end="")
+print()  # Final newline
+
+# =============================================================================
+# F-STRINGS - Modern String Formatting
+# =============================================================================
+
+print("\n--- F-String Formatting ---")
+
+name = "Alice"
+age = 30
+height = 5.75
+balance = 1234.56789
+
+# Basic f-string usage
+basic_f_string = f"My name is {name} and I am {age} years old."
+print(f"Basic f-string: {basic_f_string}")
+
+# Expressions inside f-strings
+print(f"Next year I'll be {age + 1} years old.")
+print(f"My name has {len(name)} letters.")
+print(f"Am I an adult? {age >= 18}")
+
+# Method calls inside f-strings
+print(f"My name in uppercase: {name.upper()}")
+print(f"My name reversed: {name[::-1]}")
+
+# =============================================================================
+# PRECISION FORMATTING IN F-STRINGS
+# =============================================================================
+
+print("\n--- Precision Formatting in F-Strings ---")
+
+# Number formatting
+pi = 3.14159265359
+large_number = 1234567.89
+
+# Decimal places
+print(f"Pi to 2 decimal places: {pi:.2f}")
+print(f"Pi to 4 decimal places: {pi:.4f}")
+print(f"Large number to 1 decimal: {large_number:.1f}")
+
+# Scientific notation
+print(f"Pi in scientific notation: {pi:.2e}")
+print(f"Large number in scientific: {large_number:.3e}")
+
+# Percentage formatting
+ratio = 0.856
+print(f"Ratio as percentage: {ratio:.1%}")
+print(f"Ratio as percentage (2 decimals): {ratio:.2%}")
+
+# Width and alignment
+print(f"Right aligned (width 10): '{pi:>10.2f}'")
+print(f"Left aligned (width 10): '{pi:<10.2f}'")
+print(f"Center aligned (width 10): '{pi:^10.2f}'")
+print(f"Zero padded: '{pi:08.2f}'")
+
+# Comma separators for large numbers
+big_num = 1234567
+print(f"With comma separators: {big_num:,}")
+print(f"With comma and decimals: {big_num:,.2f}")
+
+# String formatting
+print(f"Name right aligned (width 15): '{name:>15}'")
+print(f"Name left aligned (width 15): '{name:<15}'")
+print(f"Name centered (width 15): '{name:^15}'")
+
+# Date formatting (with datetime)
+from datetime import datetime
+now = datetime.now()
+print(f"Current date: {now:%Y-%m-%d}")
+print(f"Current time: {now:%H:%M:%S}")
+print(f"Full datetime: {now:%Y-%m-%d %H:%M:%S}")
+
+# =============================================================================
+# PRACTICAL EXAMPLES
+# =============================================================================
+
+print("\n--- Practical Examples ---")
+
+# Example 1: Processing user input
+def process_name(full_name):
+    """Clean and format a user's name"""
+    # Strip whitespace and convert to title case
+    cleaned = full_name.strip().title()
+    
+    # Split into parts
+    parts = cleaned.split()
+    
+    if len(parts) >= 2:
+        first_name = parts[0]
+        last_name = parts[-1]
+        return f"Hello, {first_name} {last_name}!"
+    else:
+        return f"Hello, {cleaned}!"
+
+test_names = ["  john doe  ", "MARY SMITH", "bob"]
+for name in test_names:
+    result = process_name(name)
+    print(f"'{name}' -> {result}")
+
+# Example 2: Text analysis
+def analyze_text(text):
+    """Analyze text and return statistics"""
+    # Clean the text
+    cleaned = text.strip().lower()
+    
+    # Count different elements
+    char_count = len(text)
+    word_count = len(text.split())
+    sentence_count = text.count('.') + text.count('!') + text.count('?')
+    
+    # Find most common letter
+    letter_counts = {}
+    for char in cleaned:
+        if char.isalpha():
+            letter_counts[char] = letter_counts.get(char, 0) + 1
+    
+    most_common = max(letter_counts, key=letter_counts.get) if letter_counts else 'N/A'
+    
+    return {
+        'characters': char_count,
+        'words': word_count,
+        'sentences': sentence_count,
+        'most_common_letter': most_common
+    }
+
+sample_text = "Python is amazing! It's powerful and easy to learn. I love coding with Python."
+stats = analyze_text(sample_text)
+print(f"\nText analysis for: '{sample_text}'")
+for key, value in stats.items():
+    print(f"  {key.replace('_', ' ').title()}: {value}")
+
+# Example 3: Creating a formatted report
+def create_report(students_grades):
+    """Create a formatted grade report"""
+    print("\n" + "="*50)
+    print(f"{'STUDENT GRADE REPORT':^50}")
+    print("="*50)
+    
+    for student, grades in students_grades.items():
+        avg_grade = sum(grades) / len(grades)
+        print(f"Student: {student:<20} Average: {avg_grade:>6.1f}%")
+        
+        # Show individual grades
+        grade_str = ", ".join(f"{grade:.1f}" for grade in grades)
+        print(f"  Grades: {grade_str}")
+        print("-" * 30)
+
+# Sample data
+grade_data = {
+    "Alice Johnson": [92.5, 87.0, 95.5, 89.0],
+    "Bob Smith": [78.5, 82.0, 85.5, 80.0],
+    "Carol Davis": [95.0, 98.5, 92.0, 96.5]
+}
+
+create_report(grade_data)
