@@ -1,0 +1,351 @@
+=============================================================================
+CONDITIONAL STATEMENTS - IF/ELIF/ELSE
+=============================================================================
+print("--- Understanding Conditional Statements ---")
+print("Conditional statements control program flow based on True/False conditions")
+print("Three main types: if, elif, else")
+When to use them together - mutually exclusive conditions
+print("\n--- When to Use if/elif/else Together ---")
+def check_grade(score):
+"""Demonstrate mutually exclusive conditions."""
+if score >= 90:
+return "A"
+elif score >= 80:
+return "B"
+elif score >= 70:
+return "C"
+elif score >= 60:
+return "D"
+else:
+return "F"
+Test the grading function
+test_scores = [95, 87, 72, 65, 45]
+print("Grade checking (mutually exclusive conditions):")
+for score in test_scores:
+grade = check_grade(score)
+print(f"  Score {score} -> Grade {grade}")
+print("\nWhy if/elif/else together?")
+print("  - Only ONE condition block executes")
+print("  - Conditions are checked in order")
+print("  - First True condition wins")
+print("  - 'else' catches everything that doesn't match")
+When to use discrete if statements - independent conditions
+print("\n--- When to Use Discrete 'if' Statements ---")
+def check_weather_conditions(temperature, weather, humidity):
+"""Demonstrate independent conditions that can all be true."""
+messages = []
+if temperature > 80:
+    messages.append("It's hot outside!")
+
+if weather == "sunny":
+    messages.append("Don't forget sunscreen!")
+
+if humidity > 70:
+    messages.append("It's quite humid today.")
+
+if temperature > 85 and weather == "sunny":
+    messages.append("Perfect beach weather!")
+
+return messages
+Test independent conditions
+print("Weather condition checking (independent conditions):")
+conditions = [
+(85, "sunny", 75),
+(70, "cloudy", 60),
+(90, "sunny", 80)
+]
+for temp, weather, humid in conditions:
+messages = check_weather_conditions(temp, weather, humid)
+print(f"  Temp: {temp}°F, Weather: {weather}, Humidity: {humid}%")
+for msg in messages:
+print(f"    -> {msg}")
+print("\nWhy discrete if statements?")
+print("  - Multiple conditions can be True simultaneously")
+print("  - Each condition is evaluated independently")
+print("  - All matching conditions execute")
+=============================================================================
+FOR LOOPS WITH RANGE FUNCTION
+=============================================================================
+print("\n" + "="*60)
+print("FOR LOOPS WITH RANGE FUNCTION")
+print("="*60)
+Understanding Start/Stop/Step parameters
+print("--- Understanding range(start, stop, step) ---")
+print("range() function signature: range(start=0, stop, step=1)")
+print("  - start: where to begin (default: 0)")
+print("  - stop: where to end (exclusive - not included)")
+print("  - step: increment amount (default: 1)")
+def demonstrate_range_parameters():
+"""Show different range() parameter combinations."""
+print("\nrange() parameter examples:")
+# Basic range (stop only)
+print("range(5) - stop only:")
+for i in range(5):
+    print(f"  {i}", end=" ")
+print("  # Prints 0 through 4")
+
+# Start and stop
+print("\nrange(2, 8) - start and stop:")
+for i in range(2, 8):
+    print(f"  {i}", end=" ")
+print("  # Prints 2 through 7")
+
+# Start, stop, and step
+print("\nrange(1, 10, 2) - start, stop, step:")
+for i in range(1, 10, 2):
+    print(f"  {i}", end=" ")
+print("  # Prints 1, 3, 5, 7, 9")
+
+# Negative step (counting backwards)
+print("\nrange(10, 0, -1) - counting backwards:")
+for i in range(10, 0, -1):
+    print(f"  {i}", end=" ")
+print("  # Prints 10 down to 1")
+
+# Step by larger amounts
+print("\nrange(0, 100, 25) - larger steps:")
+for i in range(0, 100, 25):
+    print(f"  {i}", end=" ")
+print("  # Prints 0, 25, 50, 75")
+demonstrate_range_parameters()
+When to use range() - practical examples
+print("\n--- When to Use range() ---")
+def repeat_action_examples():
+"""Show when to use range() for repetition."""
+# Repeat an action N times
+print("Repeating an action 3 times:")
+for i in range(3):
+    print(f"  Action {i+1}: Hello World!")
+
+# Create number sequences
+print("\nCreating a sequence of even numbers:")
+even_numbers = []
+for i in range(0, 20, 2):
+    even_numbers.append(i)
+print(f"  Even numbers: {even_numbers}")
+
+# Access list items by index
+print("\nAccessing list items by index:")
+fruits = ["apple", "banana", "orange", "grape", "kiwi"]
+for i in range(len(fruits)):
+    print(f"  Index {i}: {fruits[i]}")
+
+# Countdown timer simulation
+print("\nCountdown timer:")
+for i in range(5, 0, -1):
+    print(f"  {i}...")
+print("  Blast off!")
+repeat_action_examples()
+How to use range() effectively
+print("\n--- How to Use range() Effectively ---")
+def range_best_practices():
+"""Demonstrate best practices with range()."""
+# Processing chunks of data
+data = list(range(1, 21))  # Numbers 1-20
+chunk_size = 5
+
+print(f"Processing data in chunks of {chunk_size}:")
+for i in range(0, len(data), chunk_size):
+    chunk = data[i:i+chunk_size]
+    print(f"  Chunk starting at index {i}: {chunk}")
+
+# Creating multiplication table
+print("\nMultiplication table (5x5):")
+for i in range(1, 6):
+    row = []
+    for j in range(1, 6):
+        row.append(i * j)
+    print(f"  {i}: {row}")
+
+# Nested ranges for coordinates
+print("\nGrid coordinates (3x3):")
+for x in range(3):
+    for y in range(3):
+        print(f"  ({x}, {y})", end=" ")
+    print()  # New line after each row
+range_best_practices()
+=============================================================================
+FOR LOOPS WITH ITERABLES
+=============================================================================
+print("\n" + "="*60)
+print("FOR LOOPS WITH ITERABLES")
+print("="*60)
+What is an iterable?
+print("--- What is an Iterable? ---")
+print("An iterable is any object that can be looped through one item at a time")
+print("You can use a for loop to go through each element")
+print("Common iterables: lists, strings, tuples, dictionaries, sets, files")
+Five iterable data types with examples
+print("\n--- Five Iterable Data Types ---")
+def demonstrate_iterables():
+"""Show examples of different iterable types."""
+# 1. Lists
+print("1. LISTS - Ordered, mutable collections")
+colors = ["red", "green", "blue", "yellow"]
+print(f"   List: {colors}")
+print("   Iterating through list:")
+for color in colors:
+    print(f"     I like the color {color}")
+
+# 2. Strings
+print("\n2. STRINGS - Sequences of characters")
+word = "Python"
+print(f"   String: '{word}'")
+print("   Iterating through string:")
+for letter in word:
+    print(f"     Letter: {letter}")
+
+# 3. Tuples
+print("\n3. TUPLES - Ordered, immutable collections")
+coordinates = (10, 20, 30)
+print(f"   Tuple: {coordinates}")
+print("   Iterating through tuple:")
+for coord in coordinates:
+    print(f"     Coordinate: {coord}")
+
+# 4. Dictionaries
+print("\n4. DICTIONARIES - Key-value pairs")
+student_grades = {"Alice": 95, "Bob": 87, "Charlie": 92}
+print(f"   Dictionary: {student_grades}")
+print("   Iterating through dictionary keys:")
+for name in student_grades:
+    print(f"     {name}: {student_grades[name]}")
+
+print("   Iterating through key-value pairs:")
+for name, grade in student_grades.items():
+    print(f"     Student {name} scored {grade}")
+
+# 5. Sets
+print("\n5. SETS - Unordered collections of unique items")
+unique_numbers = {1, 2, 3, 4, 5, 2, 3}  # Duplicates automatically removed
+print(f"   Set: {unique_numbers}")
+print("   Iterating through set:")
+for number in unique_numbers:
+    print(f"     Number: {number}")
+demonstrate_iterables()
+Advanced iterable examples
+print("\n--- Advanced Iterable Examples ---")
+def advanced_iterable_usage():
+"""Show more complex iterable usage patterns."""
+# Nested lists
+print("Nested lists (2D data):")
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+for row in matrix:
+    print(f"  Row: {row}")
+    for item in row:
+        print(f"    Item: {item}")
+
+# List of dictionaries
+print("\nList of dictionaries (common data structure):")
+students = [
+    {"name": "Alice", "age": 20, "major": "CS"},
+    {"name": "Bob", "age": 21, "major": "Math"},
+    {"name": "Charlie", "age": 19, "major": "Physics"}
+]
+
+for student in students:
+    print(f"  Student: {student['name']}")
+    print(f"    Age: {student['age']}, Major: {student['major']}")
+
+# String methods creating iterables
+print("\nString methods that create iterables:")
+sentence = "Python is awesome"
+words = sentence.split()  # Creates a list
+print(f"  Original: '{sentence}'")
+print(f"  Words: {words}")
+for word in words:
+    print(f"    Word: '{word}' (length: {len(word)})")
+advanced_iterable_usage()
+=============================================================================
+WHILE LOOPS FOR DATA STATE CHANGES
+=============================================================================
+print("\n" + "="*60)
+print("WHILE LOOPS FOR DATA STATE CHANGES")
+print("="*60)
+Reducing a value to a point
+print("--- Reducing a Value to a Point ---")
+def demonstrate_value_reduction():
+"""Show examples of reducing values with while loops."""
+# Countdown example
+print("Countdown example:")
+countdown = 10
+while countdown > 0:
+    print(f"  Countdown: {countdown}")
+    countdown -= 1
+print("  Blast off!")
+
+# Division until small enough
+print("\nDividing number until it's less than 1:")
+number = 1000
+divisions = 0
+while number >= 1:
+    print(f"  Step {divisions}: {number}")
+    number = number / 2
+    divisions += 1
+print(f"  Final result: {number:.6f} after {divisions} divisions")
+
+# Removing items from a list
+print("\nRemoving items from list until empty:")
+items = ["apple", "banana", "cherry", "date"]
+while items:  # While list is not empty
+    removed = items.pop()
+    print(f"  Removed '{removed}', remaining: {items}")
+print("  List is now empty!")
+
+# Factorial calculation (reducing multiplier)
+print("\nFactorial calculation (5!):")
+n = 5
+result = 1
+original_n = n
+while n > 0:
+    print(f"  {result} × {n} = {result * n}")
+    result *= n
+    n -= 1
+print(f"  Final result: {original_n}! = {result}")
+demonstrate_value_reduction()
+Increasing a value to a point
+print("\n--- Increasing a Value to a Point ---")
+def demonstrate_value_increase():
+"""Show examples of increasing values with while loops."""
+# Counting up to a target
+print("Counting up to target:")
+counter = 1
+target = 5
+while counter <= target:
+    print(f"  Count: {counter}")
+    counter += 1
+print(f"  Reached target: {target}")
+
+# Doubling until reaching threshold
+print("\nDoubling value until reaching threshold:")
+value = 1
+threshold = 100
+steps = 0
+while value < threshold:
+    print(f"  Step {steps}: {value}")
+    value *= 2
+    steps += 1
+print(f"  Final value: {value} (exceeded threshold of {threshold})")
+
+# Building a list until condition met
+print("\nBuilding list until reaching desired length:")
+numbers = []
+target_length = 5
+current = 1
+while len(numbers) < target_length:
+    numbers.append(current ** 2)  # Add square of current number
+    print(f"  Added {current}² = {current**2}, list: {numbers}")
+    current += 1
+print(f"  Reached target length: {len(numbers)}")
+
+# Fibonacci sequence until threshold
+print("\nFibonacci sequence until value exceeds 50:")
+a, b = 0, 1
+fibonacci_sequence = [a, b]
+while b <= 50:
+    next_fib = a + b
+    fibonacci_sequence.append(next_fib)
+    print(f"  {a} + {b} = {next_fib}")
+    a, b = b, next_fib
+print(f"  Complete sequence: {fibonacci_sequence}")
+demonstrate_value_increase()
