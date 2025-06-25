@@ -1,0 +1,562 @@
+# Python Collections: Complete Guide
+
+# =============================================================================
+# KEY DIFFERENCES BETWEEN COLLECTIONS
+# =============================================================================
+
+print("--- Key Differences Between Collections ---")
+print("LIST:       Ordered, Mutable, Allows duplicates, Indexed")
+print("TUPLE:      Ordered, Immutable, Allows duplicates, Indexed") 
+print("SET:        Unordered, Mutable, No duplicates, Not indexed")
+print("DICTIONARY: Ordered*, Mutable, Keys unique/Values can duplicate, Key-indexed")
+print("* Dictionaries maintain insertion order in Python 3.7+")
+
+# =============================================================================
+# CONVERTING BETWEEN COLLECTION TYPES
+# =============================================================================
+
+print("\n--- Converting Between Collection Types ---")
+
+# Starting data
+original_list = [1, 2, 3, 2, 4, 3]
+print(f"Original list: {original_list}")
+
+# Convert to different types
+converted_tuple = tuple(original_list)
+converted_set = set(original_list)  # Removes duplicates!
+# Note: Can't directly convert list to dict without key-value pairs
+
+print(f"To tuple: {converted_tuple}")
+print(f"To set: {converted_set}")  # Notice duplicates are gone
+
+# Converting back
+back_to_list = list(converted_tuple)
+back_to_list_from_set = list(converted_set)
+
+print(f"Tuple back to list: {back_to_list}")
+print(f"Set back to list: {back_to_list_from_set}")  # Order may be different
+
+# Converting strings
+text = "hello"
+print(f"String to list: {list(text)}")
+print(f"String to tuple: {tuple(text)}")
+print(f"String to set: {set(text)}")  # Removes duplicate letters
+
+# =============================================================================
+# TUPLE CONCEPTS
+# =============================================================================
+
+print("\n" + "="*50)
+print("TUPLE CONCEPTS")
+print("="*50)
+
+# Creating tuples
+print("--- Creating Tuples ---")
+empty_tuple = ()
+single_item_tuple = (42,)  # Note the comma - important!
+multi_item_tuple = (1, 2, 3, 4, 5)
+mixed_tuple = ("Alice", 25, True, 3.14)
+
+print(f"Empty tuple: {empty_tuple}")
+print(f"Single item: {single_item_tuple}")
+print(f"Multi item: {multi_item_tuple}")
+print(f"Mixed types: {mixed_tuple}")
+
+# Alternative creation (without parentheses)
+coordinates = 10, 20  # This is also a tuple!
+print(f"Coordinates: {coordinates}, type: {type(coordinates)}")
+
+# Accessing values by index
+print("\n--- Accessing Tuple Values ---")
+colors = ("red", "green", "blue", "yellow", "purple")
+print(f"Colors tuple: {colors}")
+print(f"First color: {colors[0]}")
+print(f"Last color: {colors[-1]}")
+print(f"Second to last: {colors[-2]}")
+print(f"Slice (first 3): {colors[:3]}")
+
+# Tuple unpacking (breaking into individual variables)
+print("\n--- Tuple Unpacking ---")
+person = ("John", "Doe", 30, "Engineer")
+first_name, last_name, age, job = person
+print(f"Unpacked: {first_name}, {last_name}, {age}, {job}")
+
+# Partial unpacking with *
+numbers = (1, 2, 3, 4, 5, 6)
+first, second, *rest = numbers
+print(f"First: {first}, Second: {second}, Rest: {rest}")
+
+# Swapping variables using tuples
+a, b = 10, 20
+print(f"Before swap: a={a}, b={b}")
+a, b = b, a  # This is tuple packing/unpacking!
+print(f"After swap: a={a}, b={b}")
+
+# Changing tuple values using list conversion
+print("\n--- Modifying Tuples (via list conversion) ---")
+original_tuple = (1, 2, 3, 4, 5)
+print(f"Original tuple: {original_tuple}")
+
+# Convert to list, modify, convert back
+temp_list = list(original_tuple)
+temp_list[2] = 99  # Change the 3rd element
+modified_tuple = tuple(temp_list)
+
+print(f"Modified tuple: {modified_tuple}")
+
+# =============================================================================
+# LIST CONCEPTS
+# =============================================================================
+
+print("\n" + "="*50)
+print("LIST CONCEPTS")
+print("="*50)
+
+# Creating lists
+print("--- Creating Lists ---")
+empty_list = []
+number_list = [1, 2, 3, 4, 5]
+mixed_list = ["hello", 42, True, 3.14, [1, 2, 3]]
+range_list = list(range(1, 6))
+
+print(f"Empty list: {empty_list}")
+print(f"Number list: {number_list}")
+print(f"Mixed list: {mixed_list}")
+print(f"From range: {range_list}")
+
+# Adding data to lists
+print("\n--- Adding Data to Lists ---")
+fruits = ["apple", "banana"]
+print(f"Original fruits: {fruits}")
+
+# append() - adds single item to end
+fruits.append("cherry")
+print(f"After append: {fruits}")
+
+# insert() - adds item at specific position
+fruits.insert(1, "orange")  # Insert at index 1
+print(f"After insert: {fruits}")
+
+# extend() - adds multiple items
+fruits.extend(["grape", "kiwi"])
+print(f"After extend: {fruits}")
+
+# Using += (similar to extend)
+fruits += ["mango", "peach"]
+print(f"After +=: {fruits}")
+
+# Accessing values (positive and negative indexes)
+print("\n--- Accessing List Values ---")
+print(f"Fruits list: {fruits}")
+print(f"First fruit: {fruits[0]}")
+print(f"Last fruit: {fruits[-1]}")
+print(f"Second fruit: {fruits[1]}")
+print(f"Third from end: {fruits[-3]}")
+print(f"Slice (2nd to 4th): {fruits[1:4]}")
+
+# Modifying values by index
+print("\n--- Modifying List Values ---")
+numbers = [10, 20, 30, 40, 50]
+print(f"Original numbers: {numbers}")
+
+numbers[0] = 99  # Change first element
+numbers[-1] = 88  # Change last element
+numbers[2] = numbers[2] * 2  # Double the middle element
+
+print(f"Modified numbers: {numbers}")
+
+# Removing values from lists
+print("\n--- Removing Values from Lists ---")
+animals = ["cat", "dog", "fish", "bird", "cat", "rabbit"]
+print(f"Original animals: {animals}")
+
+# remove() - removes first occurrence of value
+animals.remove("cat")  # Removes first "cat"
+print(f"After remove('cat'): {animals}")
+
+# pop() - removes and returns item at index (default: last item)
+removed_animal = animals.pop()  # Remove last item
+print(f"Popped animal: {removed_animal}")
+print(f"After pop(): {animals}")
+
+removed_at_index = animals.pop(1)  # Remove item at index 1
+print(f"Popped at index 1: {removed_at_index}")
+print(f"After pop(1): {animals}")
+
+# del - removes item at index (doesn't return it)
+del animals[0]  # Remove first item
+print(f"After del animals[0]: {animals}")
+
+# clear() - removes all items
+backup_animals = animals.copy()  # Make a backup first
+animals.clear()
+print(f"After clear(): {animals}")
+animals = backup_animals  # Restore for next examples
+
+# Iterating through lists
+print("\n--- Iterating Through Lists ---")
+colors = ["red", "green", "blue"]
+
+print("Simple iteration:")
+for color in colors:
+    print(f"  Color: {color}")
+
+print("With index using enumerate:")
+for index, color in enumerate(colors):
+    print(f"  Index {index}: {color}")
+
+print("Using range() for index-based loop:")
+for i in range(len(colors)):
+    print(f"  colors[{i}] = {colors[i]}")
+
+# When to use range() for loops with lists
+print("\n--- When to Use range() with Lists ---")
+scores = [85, 92, 78, 94, 88]
+
+# Use range() when you need to modify the list while iterating
+print("Doubling all scores using range():")
+for i in range(len(scores)):
+    scores[i] = scores[i] * 2
+print(f"Doubled scores: {scores}")
+
+# Use range() when you need the index for calculations
+print("Scores with position bonuses:")
+for i in range(len(scores)):
+    bonus = i * 5  # Position-based bonus
+    final_score = scores[i] + bonus
+    print(f"  Position {i}: {scores[i]} + {bonus} = {final_score}")
+
+# Checking if item is in list
+print("\n--- Checking List Membership ---")
+fruits = ["apple", "banana", "cherry"]
+print(f"Fruits: {fruits}")
+print(f"'apple' in fruits: {'apple' in fruits}")
+print(f"'orange' in fruits: {'orange' in fruits}")
+print(f"'banana' not in fruits: {'banana' not in fruits}")
+
+# Making copies of lists
+print("\n--- Copying Lists ---")
+original = [1, 2, 3, 4, 5]
+print(f"Original: {original}")
+
+# Shallow copy methods
+copy1 = original.copy()
+copy2 = original[:]  # Slice copy
+copy3 = list(original)
+
+# Demonstrate they're separate
+original[0] = 99
+print(f"After changing original[0] to 99:")
+print(f"  Original: {original}")
+print(f"  Copy1: {copy1}")
+print(f"  Copy2: {copy2}")
+print(f"  Copy3: {copy3}")
+
+# Sorting lists
+print("\n--- Sorting Lists ---")
+numbers = [64, 34, 25, 12, 22, 11, 90]
+names = ["Charlie", "Alice", "Bob", "David"]
+
+print(f"Original numbers: {numbers}")
+print(f"Original names: {names}")
+
+# sort() - modifies the original list
+numbers.sort()
+names.sort()
+print(f"After sort() - numbers: {numbers}")
+print(f"After sort() - names: {names}")
+
+# sorted() - returns new sorted list
+original_numbers = [64, 34, 25, 12, 22, 11, 90]
+sorted_numbers = sorted(original_numbers)
+print(f"Original unchanged: {original_numbers}")
+print(f"Sorted copy: {sorted_numbers}")
+
+# Reverse sorting
+numbers.sort(reverse=True)
+print(f"Reverse sorted: {numbers}")
+
+# help(list) example
+print("\n--- List Methods (use help(list) for full details) ---")
+list_methods = [method for method in dir(list) if not method.startswith('_')]
+print("Available list methods:")
+print(f"  {', '.join(list_methods)}")
+
+# =============================================================================
+# SET CONCEPTS
+# =============================================================================
+
+print("\n" + "="*50)
+print("SET CONCEPTS")
+print("="*50)
+
+# Creating sets
+print("--- Creating Sets ---")
+empty_set = set()  # Remember: {} is a dictionary!
+number_set = {1, 2, 3, 4, 5}
+mixed_set = {"hello", 42, True, 3.14}
+from_list = set([1, 2, 2, 3, 3, 4])  # Duplicates removed
+
+print(f"Empty set: {empty_set}")
+print(f"Number set: {number_set}")
+print(f"Mixed set: {mixed_set}")
+print(f"From list (duplicates removed): {from_list}")
+
+# Adding values to sets
+print("\n--- Adding Values to Sets ---")
+colors = {"red", "green", "blue"}
+print(f"Original colors: {colors}")
+
+# add() - adds single item
+colors.add("yellow")
+print(f"After add('yellow'): {colors}")
+
+# update() - adds multiple items (like extend for lists)
+colors.update(["purple", "orange"])
+print(f"After update with list: {colors}")
+
+colors.update({"pink", "brown"})  # Can update with another set
+print(f"After update with set: {colors}")
+
+# Attempting to add duplicate (no effect)
+colors.add("red")  # Already exists
+print(f"After adding duplicate 'red': {colors}")  # No change
+
+# Removing values from sets
+print("\n--- Removing Values from Sets ---")
+animals = {"cat", "dog", "fish", "bird"}
+print(f"Original animals: {animals}")
+
+# remove() - removes item, raises error if not found
+animals.remove("cat")
+print(f"After remove('cat'): {animals}")
+
+# discard() - removes item, no error if not found
+animals.discard("fish")
+animals.discard("elephant")  # Doesn't exist, but no error
+print(f"After discard('fish') and discard('elephant'): {animals}")
+
+# pop() - removes and returns arbitrary item
+removed = animals.pop()
+print(f"Popped item: {removed}")
+print(f"After pop(): {animals}")
+
+# Set operations (union, intersection, etc.)
+print("\n--- Set Operations ---")
+set1 = {1, 2, 3, 4, 5}
+set2 = {4, 5, 6, 7, 8}
+
+print(f"Set1: {set1}")
+print(f"Set2: {set2}")
+
+# Union - all elements from both sets
+union1 = set1 | set2  # Using operator
+union2 = set1.union(set2)  # Using method
+print(f"Union (|): {union1}")
+print(f"Union (method): {union2}")
+
+# Intersection - elements in both sets
+intersection = set1 & set2
+print(f"Intersection (&): {intersection}")
+
+# Difference - elements in first but not second
+difference = set1 - set2
+print(f"Difference (set1 - set2): {difference}")
+
+# Symmetric difference - elements in either set, but not both
+sym_diff = set1 ^ set2
+print(f"Symmetric difference (^): {sym_diff}")
+
+# help(set) example
+print("\n--- Set Methods (use help(set) for full details) ---")
+set_methods = [method for method in dir(set) if not method.startswith('_')]
+print("Available set methods:")
+print(f"  {', '.join(set_methods[:10])}...")  # Show first 10
+
+# =============================================================================
+# DICTIONARY CONCEPTS
+# =============================================================================
+
+print("\n" + "="*50)
+print("DICTIONARY CONCEPTS")
+print("="*50)
+
+# Creating dictionaries
+print("--- Creating Dictionaries ---")
+empty_dict = {}
+student = {
+    "name": "Alice",
+    "age": 20,
+    "grade": "A",
+    "courses": ["Math", "Science", "English"]
+}
+
+# Alternative creation methods
+from_keys = dict.fromkeys(["a", "b", "c"], 0)  # All values set to 0
+from_pairs = dict([("x", 1), ("y", 2), ("z", 3)])
+
+print(f"Student dict: {student}")
+print(f"From keys: {from_keys}")
+print(f"From pairs: {from_pairs}")
+
+# Adding key/value pairs using square brackets
+print("\n--- Adding Key/Value Pairs ---")
+person = {"name": "Bob"}
+print(f"Original person: {person}")
+
+person["age"] = 25
+person["city"] = "New York"
+person["hobbies"] = ["reading", "swimming"]
+
+print(f"After additions: {person}")
+
+# Modifying key/value pairs using square brackets
+print("\n--- Modifying Key/Value Pairs ---")
+print(f"Before modification: {person}")
+
+person["age"] = 26  # Change existing value
+person["city"] = "Los Angeles"  # Change existing value
+
+print(f"After modification: {person}")
+
+# Getting values from dictionary
+print("\n--- Getting Dictionary Values ---")
+student_info = {
+    "name": "Charlie",
+    "age": 22,
+    "major": "Computer Science",
+    "gpa": 3.8
+}
+
+print(f"Student info: {student_info}")
+
+# Using square brackets (raises error if key doesn't exist)
+print(f"Name: {student_info['name']}")
+print(f"GPA: {student_info['gpa']}")
+
+# Using get() method (returns None or default if key doesn't exist)
+print(f"Phone (using get): {student_info.get('phone')}")  # Returns None
+print(f"Phone (with default): {student_info.get('phone', 'Not provided')}")
+
+# Checking if key exists
+print("\n--- Checking Key Existence ---")
+print(f"'name' in student_info: {'name' in student_info}")
+print(f"'phone' in student_info: {'phone' in student_info}")
+print(f"'email' not in student_info: {'email' not in student_info}")
+
+# Safe value access
+if "phone" in student_info:
+    print(f"Phone: {student_info['phone']}")
+else:
+    print("Phone number not available")
+
+# Iterating through dictionaries
+print("\n--- Iterating Through Dictionaries ---")
+grades = {"Math": 95, "Science": 87, "English": 92, "History": 89}
+
+print("Iterating through keys:")
+for subject in grades:  # Default iteration is over keys
+    print(f"  {subject}")
+
+print("Iterating through keys (explicit):")
+for subject in grades.keys():
+    print(f"  {subject}: {grades[subject]}")
+
+print("Iterating through values:")
+for grade in grades.values():
+    print(f"  Grade: {grade}")
+
+print("Iterating through key-value pairs:")
+for subject, grade in grades.items():
+    print(f"  {subject}: {grade}")
+
+# Iterating through a set with for loop
+print("\n--- Iterating Through Sets ---")
+fruits = {"apple", "banana", "cherry", "date"}
+print(f"Fruits set: {fruits}")
+
+print("Iterating through set:")
+for fruit in fruits:
+    print(f"  Fruit: {fruit}")
+
+# Note: Order is not guaranteed in sets (though it's consistent in modern Python)
+
+# =============================================================================
+# PRACTICAL EXAMPLES AND COMPARISONS
+# =============================================================================
+
+print("\n" + "="*50)
+print("PRACTICAL EXAMPLES")
+print("="*50)
+
+# Example 1: When to use each collection type
+print("--- When to Use Each Collection Type ---")
+
+# List: When you need ordered, changeable data with possible duplicates
+shopping_list = ["milk", "bread", "eggs", "milk"]  # Duplicates OK
+print(f"Shopping list (duplicates OK): {shopping_list}")
+
+# Tuple: When you need ordered, unchangeable data (like coordinates)
+point_3d = (10, 20, 30)  # x, y, z coordinates
+print(f"3D point (immutable): {point_3d}")
+
+# Set: When you need unique items and don't care about order
+unique_visitors = {"alice", "bob", "charlie", "alice"}  # Duplicates removed
+print(f"Unique visitors: {unique_visitors}")
+
+# Dictionary: When you need key-value relationships
+student_grades = {"Alice": 95, "Bob": 87, "Charlie": 92}
+print(f"Student grades (key-value): {student_grades}")
+
+# Example 2: Converting between types for different operations
+print("\n--- Collection Type Conversions for Operations ---")
+
+# Start with a list of scores
+scores = [85, 92, 78, 92, 85, 95, 88, 92]
+print(f"Original scores: {scores}")
+
+# Convert to set to find unique scores
+unique_scores = set(scores)
+print(f"Unique scores: {unique_scores}")
+
+# Convert back to list to sort
+sorted_unique = sorted(list(unique_scores))
+print(f"Sorted unique scores: {sorted_unique}")
+
+# Use tuple for immutable record
+score_record = tuple(sorted_unique)
+print(f"Final score record (immutable): {score_record}")
+
+# Example 3: Combining all collection types
+print("\n--- Combining Collection Types ---")
+
+# Dictionary with different collection types as values
+class_data = {
+    "students": ["Alice", "Bob", "Charlie"],  # List
+    "room_number": (2, 0, 1),  # Tuple (building, floor, room)
+    "subjects": {"Math", "Science", "English"},  # Set
+    "teacher_info": {  # Nested dictionary
+        "name": "Dr. Smith",
+        "email": "smith@school.edu"
+    }
+}
+
+print("Class data structure:")
+for key, value in class_data.items():
+    print(f"  {key}: {value} (type: {type(value).__name__})")
+
+# Accessing nested data
+print(f"First student: {class_data['students'][0]}")
+print(f"Room info: Building {class_data['room_number'][0]}, Floor {class_data['room_number'][1]}")
+print(f"Teacher name: {class_data['teacher_info']['name']}")
+
+# Example 4: Performance comparison (conceptual)
+print("\n--- Performance Characteristics ---")
+print("LIST:   Good for: Ordered data, indexing, appending")
+print("        Slow for: Searching (except by index), removing from middle")
+print("TUPLE:  Good for: Immutable records, dictionary keys, unpacking")
+print("        Slow for: Can't modify (need conversion)")
+print("SET:    Good for: Membership testing, removing duplicates, set operations")
+print("        Slow for: Ordering, indexing (not supported)")
+print("DICT:   Good for: Key-value lookups, mapping relationships")
+print("        Slow for: Ordering by values (need sorting)")
