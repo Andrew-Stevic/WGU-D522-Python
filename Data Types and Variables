@@ -1,0 +1,231 @@
+# Python Basics: Data Types, Variables, and Collections
+
+# =============================================================================
+# VARIABLE SCOPE
+# =============================================================================
+
+# Global scope - accessible everywhere in the file
+global_var = "I'm global!"
+
+def demonstrate_scope():
+    # Local scope - only accessible inside this function
+    local_var = "I'm local!"
+    print(f"Inside function: {global_var}")  # Can access global
+    print(f"Inside function: {local_var}")   # Can access local
+    
+    # Modifying global variables requires 'global' keyword
+    global global_var
+    global_var = "I've been changed!"
+
+demonstrate_scope()
+print(f"Outside function: {global_var}")    # Shows the changed value
+# print(local_var)  # This would cause an error - local_var doesn't exist here
+
+# =============================================================================
+# DATA TYPES: int, float, str
+# =============================================================================
+
+# Creating different types
+my_int = 42
+my_float = 3.14
+my_string = "Hello World"
+
+print(f"Integer: {my_int}, type: {type(my_int)}")
+print(f"Float: {my_float}, type: {type(my_float)}")
+print(f"String: {my_string}, type: {type(my_string)}")
+
+# TYPE CONVERSION (Casting)
+print("\n--- Type Conversion ---")
+
+# Converting to int
+str_number = "123"
+converted_int = int(str_number)
+print(f"String '123' to int: {converted_int}")
+
+float_number = 45.67
+converted_int_from_float = int(float_number)  # Truncates decimal
+print(f"Float 45.67 to int: {converted_int_from_float}")
+
+# Converting to float
+int_to_float = float(my_int)
+str_to_float = float("98.5")
+print(f"Int 42 to float: {int_to_float}")
+print(f"String '98.5' to float: {str_to_float}")
+
+# Converting to string
+int_to_str = str(my_int)
+float_to_str = str(my_float)
+print(f"Int 42 to string: '{int_to_str}'")
+print(f"Float 3.14 to string: '{float_to_str}'")
+
+# =============================================================================
+# BOOLEAN AND NONE
+# =============================================================================
+
+print("\n--- Boolean and None ---")
+
+# Boolean values
+is_sunny = True
+is_raining = False
+print(f"Is sunny: {is_sunny}")
+print(f"Is raining: {is_raining}")
+
+# Boolean conversion
+print(f"bool(1): {bool(1)}")        # True
+print(f"bool(0): {bool(0)}")        # False
+print(f"bool('text'): {bool('text')}")  # True (non-empty string)
+print(f"bool(''): {bool('')}")      # False (empty string)
+print(f"bool([1,2,3]): {bool([1,2,3])}")  # True (non-empty list)
+print(f"bool([]): {bool([])}")      # False (empty list)
+
+# None type
+my_none = None
+print(f"None value: {my_none}")
+print(f"None type: {type(my_none)}")
+print(f"Is None falsy? {bool(my_none)}")  # False
+
+# =============================================================================
+# RANGE FUNCTION
+# =============================================================================
+
+print("\n--- Range Function ---")
+
+# Basic range - range(stop)
+print("range(5):", list(range(5)))  # [0, 1, 2, 3, 4]
+
+# Range with start and stop - range(start, stop)
+print("range(2, 8):", list(range(2, 8)))  # [2, 3, 4, 5, 6, 7]
+
+# Range with start, stop, and step - range(start, stop, step)
+print("range(0, 10, 2):", list(range(0, 10, 2)))  # [0, 2, 4, 6, 8]
+print("range(10, 0, -1):", list(range(10, 0, -1)))  # [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+# Common use in loops
+print("Using range in a loop:")
+for i in range(3):
+    print(f"  Loop iteration: {i}")
+
+# =============================================================================
+# COLLECTIONS
+# =============================================================================
+
+print("\n--- Collections ---")
+
+# LIST - Ordered, mutable, allows duplicates
+print("LISTS:")
+my_list = [1, 2, 3, "hello", True]
+print(f"List: {my_list}")
+print(f"First item: {my_list[0]}")
+print(f"Last item: {my_list[-1]}")
+
+# List methods
+my_list.append("new item")
+print(f"After append: {my_list}")
+my_list.remove(2)
+print(f"After removing 2: {my_list}")
+
+# TUPLE - Ordered, immutable, allows duplicates
+print("\nTUPLES:")
+my_tuple = (1, 2, 3, "hello", True)
+print(f"Tuple: {my_tuple}")
+print(f"First item: {my_tuple[0]}")
+# my_tuple[0] = 5  # This would cause an error - tuples are immutable
+
+# Tuple unpacking
+coordinates = (10, 20)
+x, y = coordinates
+print(f"Unpacked coordinates: x={x}, y={y}")
+
+# DICTIONARY - Key-value pairs, unordered, mutable
+print("\nDICTIONARIES:")
+my_dict = {
+    "name": "Alice",
+    "age": 30,
+    "city": "New York",
+    "is_student": False
+}
+print(f"Dictionary: {my_dict}")
+print(f"Name: {my_dict['name']}")
+print(f"Age: {my_dict.get('age')}")  # Safer way to access
+
+# Adding/modifying dictionary items
+my_dict["email"] = "alice@email.com"
+my_dict["age"] = 31
+print(f"Updated dictionary: {my_dict}")
+
+# Dictionary methods
+print(f"Keys: {list(my_dict.keys())}")
+print(f"Values: {list(my_dict.values())}")
+print(f"Items: {list(my_dict.items())}")
+
+# SET - Unordered, mutable, no duplicates
+print("\nSETS:")
+my_set = {1, 2, 3, 3, 4, 4, 5}  # Duplicates will be removed
+print(f"Set: {my_set}")
+
+# Set operations
+my_set.add(6)
+print(f"After adding 6: {my_set}")
+my_set.remove(2)
+print(f"After removing 2: {my_set}")
+
+# Set operations with other sets
+other_set = {4, 5, 6, 7, 8}
+print(f"Union: {my_set | other_set}")
+print(f"Intersection: {my_set & other_set}")
+print(f"Difference: {my_set - other_set}")
+
+# =============================================================================
+# PRACTICAL EXAMPLES
+# =============================================================================
+
+print("\n--- Practical Examples ---")
+
+# Example 1: Type checking and conversion
+def safe_divide(a, b):
+    """Safely divide two numbers with type checking"""
+    try:
+        # Convert to float to handle both int and float inputs
+        num1 = float(a)
+        num2 = float(b)
+        
+        if num2 == 0:
+            return None  # Return None for division by zero
+        
+        return num1 / num2
+    except (ValueError, TypeError):
+        return None  # Return None if conversion fails
+
+print(f"safe_divide('10', '2'): {safe_divide('10', '2')}")
+print(f"safe_divide(15, 3): {safe_divide(15, 3)}")
+print(f"safe_divide(10, 0): {safe_divide(10, 0)}")
+
+# Example 2: Working with collections
+def analyze_grades(grades):
+    """Analyze a list of grades and return statistics"""
+    if not grades:  # Check if list is empty
+        return None
+    
+    # Convert all grades to float and remove duplicates
+    unique_grades = set(float(grade) for grade in grades)
+    grade_list = list(unique_grades)
+    
+    stats = {
+        "count": len(grade_list),
+        "highest": max(grade_list),
+        "lowest": min(grade_list),
+        "average": sum(grade_list) / len(grade_list)
+    }
+    
+    return stats
+
+sample_grades = [85, 92, 78, 92, 88, 95, 85, 90]
+result = analyze_grades(sample_grades)
+print(f"Grade analysis: {result}")
+
+# Example 3: Using range with different step values
+print("\nCreating different number sequences:")
+print("Even numbers 0-10:", list(range(0, 11, 2)))
+print("Odd numbers 1-10:", list(range(1, 11, 2)))
+print("Countdown from 10:", list(range(10, 0, -1)))
+print("Every 3rd number from 0-30:", list(range(0, 31, 3)))
