@@ -1,0 +1,146 @@
+# Python Practice Labs - Beginner Level
+
+## Lab 1: Date Processing and Finding Oldest Date
+
+**Objective:** Convert a list of date strings to a specified format and find the oldest date.
+
+**Instructions:** Complete the function below that takes a list of date strings in format "MM/DD/YYYY" and converts them to "YYYY-MM-DD" format, then returns the oldest date.
+
+```python
+from datetime import datetime
+
+def process_dates(date_list):
+    # Convert dates from MM/DD/YYYY to YYYY-MM-DD format
+    # Find and return the oldest date in the new format
+    pass
+
+# Test data
+dates = ["03/15/2023", "12/01/2022", "07/20/2023", "01/05/2022"]
+print(process_dates(dates))
+# Expected output: "2022-01-05"
+```
+
+---
+
+## Lab 2: Employee ID Validation
+
+**Objective:** Write a function that validates employee IDs against a specific format.
+
+**Instructions:** Complete the function that checks if each employee ID follows the format: 3 uppercase letters followed by exactly 5 digits (e.g., "ABC12345").
+
+```python
+def validate_employee_ids(id_list):
+    # Check if each ID matches format: 3 uppercase letters + 5 digits
+    # Use string slicing and if/then statements with boolean matching
+    # Return a list of boolean values (True for valid, False for invalid)
+    pass
+
+# Test data
+employee_ids = ["ABC12345", "XYZ67890", "ab12345", "ABC1234", "DEF123456", "GHI98765"]
+print(validate_employee_ids(employee_ids))
+# Expected output: [True, True, False, False, False, True]
+```
+
+---
+
+## Lab 3: Find Index of Values Meeting Threshold
+
+**Objective:** Find the index positions of float values that meet or exceed a threshold.
+
+**Instructions:** Complete the function that returns a list of index positions where the float values are greater than or equal to the threshold.
+
+```python
+def find_threshold_indices(float_list, threshold):
+    # Return list of indices where values >= threshold
+    pass
+
+# Test data
+numbers = [2.5, 8.7, 3.2, 9.1, 1.8, 7.4, 5.6]
+threshold = 7.0
+print(find_threshold_indices(numbers, threshold))
+# Expected output: [1, 3, 5]
+```
+
+---
+
+## Lab 4: Write Data to CSV File
+
+**Objective:** Write a list of student records to a CSV file.
+
+**Instructions:** Complete the function that writes student data to a CSV file with headers.
+
+```python
+import csv
+
+def write_student_data(filename, students):
+    # Write student data to CSV file
+    # Include headers: Name, Age, Grade, GPA
+    pass
+
+# Test data
+student_data = [
+    ["Alice Johnson", 20, "Sophomore", 3.7],
+    ["Bob Smith", 19, "Freshman", 3.2],
+    ["Carol Davis", 21, "Junior", 3.9],
+    ["David Wilson", 22, "Senior", 3.5]
+]
+
+write_student_data("students.csv", student_data)
+print("Data written to students.csv")
+```
+
+---
+
+## Lab 5: Read Data from CSV File
+
+**Objective:** Read student data from a CSV file and process it.
+
+**Instructions:** Complete the function that reads the CSV file created in Lab 4 and returns the data as a list of dictionaries.
+
+```python
+import csv
+
+def read_student_data(filename):
+    # Read CSV file and return as list of dictionaries
+    # Each dictionary should have keys: Name, Age, Grade, GPA
+    pass
+
+# Test the function
+students = read_student_data("students.csv")
+for student in students:
+    print(student)
+# Expected output: List of dictionaries with student information
+```
+
+---
+
+## Lab 6: RGB Color Formatter
+
+**Objective:** Convert separate RGB values into a properly formatted RGB color string.
+
+**Instructions:** Complete the function that takes a list of integers representing RGB values and returns a formatted RGB color string.
+
+```python
+def format_rgb_color(rgb_values):
+    # Combine RGB values into format "R,G,B" with no spaces
+    # Handle cases where list might not have exactly 3 values
+    pass
+
+# Test data
+rgb1 = [47, 244, 97]
+rgb2 = [255, 128, 0]
+rgb3 = [0, 0, 0]
+
+print(format_rgb_color(rgb1))  # Expected: "47,244,97"
+print(format_rgb_color(rgb2))  # Expected: "255,128,0" 
+print(format_rgb_color(rgb3))  # Expected: "0,0,0"
+```
+
+---
+
+## Practice Tips:
+- Test your functions with the provided test data
+- Consider edge cases (empty lists, invalid data, etc.)
+- Use appropriate error handling where necessary
+- Make sure your code follows Python naming conventions
+- Remember to import necessary modules at the top of your files
